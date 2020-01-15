@@ -26,20 +26,22 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 # theme: minima
-plugins:
-  - jekyll-feed
+# plugins:
+#   - jekyll-feed
+
+permalink: /:collection/:name
 
 collections:
   anime:
     output: true
-    permalink: /:collection/:name
+  book:
+    output: true
 
 defaults:
   - scope:
-      path: ""
-      type: anime
+      path: "_*/*.md"
     values:
-      layout: anime
+      layout: item
 
 # Exclude from processing.
 # The following items will not be processed, by default.
