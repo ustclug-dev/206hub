@@ -1,0 +1,4 @@
+---
+---
+
+<!-- {% assign tags = site.collections %} -->
