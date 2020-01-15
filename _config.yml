@@ -25,7 +25,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-# theme: minima
+theme: minima
 # plugins:
 #   - jekyll-feed
 
@@ -36,6 +36,14 @@ collections:
     output: true
   book:
     output: true
+
+jekyll-archives:
+  enabled:
+    - tags
+  layouts: 
+    tag: archive-tag
+  permalinks:
+    tag: /tag/:name
 
 defaults:
   - scope:
