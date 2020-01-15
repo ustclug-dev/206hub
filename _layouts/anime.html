@@ -1,1 +1,16 @@
-{{ page.name }}
+<h1>{{ page.name }}</h1>
+<ul>
+    <li>其他名称: {% for name in page.common_names %} {{ name }} {% endfor %}</li>
+    <li>维基百科: <a href='{{ page.wikipedia_link }}'>{{ page.wikipedia_link }}</a></li>
+    <li>Bangumi: <a href='{{ page.bgm_link }}'>{{ page.bgm_link }}</a></li>
+    <li>评论:
+        {% for comment in page.comments %}
+        <ul>
+            <li>评论者: {{ comment.commenter }}</li>
+            <li>标签: {% for tag in comment.tags %} {{ tag }} {% endfor %}</li>
+            <li>评分: {{ comment.score }}</li>
+            <li>评论: {{ comment.comment | markdownify }}</li>
+        </ul>
+        {% endfor %}
+    </li>
+</ul>
