@@ -1,4 +1,7 @@
 <h1>{{ page.name }}</h1>
+{% assign comments = page.comments %}
+{% include score.html %}
+<h3>平均得分: {{ score }}</h3>
 <ul>
     <li>其他名称: {% for name in page.common_names %} {{ name }} {% endfor %}</li>
     <li>辅助链接:

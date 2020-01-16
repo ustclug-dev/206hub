@@ -43,9 +43,9 @@ jekyll-archives:
     - categories
     - commenters
   layouts: 
-    tag: archive-tag
-    category: archive-category
-    commenter: archive-category
+    tag: archive
+    category: archive
+    commenter: archive
   permalinks:
     tag: /tag/:name/
     category: /:name/

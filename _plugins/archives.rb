@@ -65,7 +65,7 @@ module Jekyll
 
       def read_commenters
         if enabled? "commenters"
-          Jekyll.logger.warn "#{commenters}"
+          # Jekyll.logger.warn "#{commenters}"
           commenters.each do |title, posts|
             @archives << Archive.new(@site, title, "commenter", posts)
           end
