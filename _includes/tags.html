@@ -1,0 +1,4 @@
+{% comment %}
+使用 Liquid 模版计算某一项的所有标签。
+{% endcomment %}
+{% assign tag_list = comments | map: "tags" %}

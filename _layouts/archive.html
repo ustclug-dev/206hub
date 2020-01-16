@@ -7,6 +7,12 @@
       {% assign comments = post.comments %}
       {% include score.html %}
       {{ score }}
+      {% include tags.html %}
+      {% for tags in tag_list %}
+        {% for tag in tags %}
+          <a href="/tag/{{ tag }}">{{ tag }}</a>
+        {% endfor %}
+      {% endfor %}
     </li>
   {% endfor %}
 </ul>
