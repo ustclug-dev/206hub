@@ -41,12 +41,15 @@ jekyll-archives:
   enabled:
     - tags
     - categories
+    - commenters
   layouts: 
     tag: archive-tag
     category: archive-category
+    commenter: archive-category
   permalinks:
     tag: /tag/:name/
     category: /:name/
+    commenter: /commenters/:name/
 
 defaults:
   - scope:
