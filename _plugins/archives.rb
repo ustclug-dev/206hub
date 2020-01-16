@@ -16,7 +16,7 @@ module Jekyll
     end
 
     def commenters
-      begin
+      @commenters ||= begin
         hash = Hash.new { |h, k| h[k] = [] }
         collections.each do |name, collection|
           collection.docs.each do |doc|
@@ -35,7 +35,7 @@ module Jekyll
       def read
         read_tags
         read_categories
-        read_dates
+        # read_dates
         read_commenters
       end
 
@@ -49,18 +49,6 @@ module Jekyll
 
       def commenters
         @site.commenters
-      end
-
-      def read_categories
-        if enabled? "categories"
-          categories.each do |title, posts|
-            if title == "posts"
-              next
-            end
-            # Jekyll.logger.warn "COLLECTIONS: title: #{title}, posts: #{posts.docs}"
-            @archives << Archive.new(@site, title, "category", posts.docs)
-          end
-        end
       end
 
       def read_commenters
