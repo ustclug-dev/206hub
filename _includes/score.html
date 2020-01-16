@@ -1,0 +1,9 @@
+{% comment %}
+使用 Liquid 模版计算平均得分。
+{% endcomment %}
+{% assign score_list = comments | map: "score" %}
+{% assign score = 0.0 %}
+{% for item in score_list %}
+    {% assign score = score | plus: item %}
+{% endfor %}
+{% assign score = score | divided_by: score_list.size %}

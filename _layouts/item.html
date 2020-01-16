@@ -1,0 +1,47 @@
+---
+layout: default
+---
+
+<h1>{{ page.name }}</h1>
+{% assign comments = page.comments %}
+{% include score.html %}
+<h3>平均得分: {{ score }}</h3>
+<ul>
+    <li>其他名称: 
+        <ul>
+        {% for name in page.common_names %} 
+            <li>{{ name }}</li>
+        {% endfor %}
+        </ul>
+    </li>
+    <li>辅助链接:
+        <ul>
+    {% for link in page.link %}
+        <li>
+            {{ link.source }}: <a href='{{ link.link }}'>{{ link.link }}</a>
+        </li>
+    {% endfor %}
+        </ul>
+    </li>
+    {% if page.meta %}
+    <li>其他元信息:
+        <ul>
+            {% for meta in page.meta %}
+            <li>
+                {{ meta.name }}: {{ meta.value }}
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endif %}
+    <li>评论:
+        {% for comment in page.comments %}
+        <ul>
+            <li>评论者: <a href="/commenters/{{ comment.commenter }}">{{ comment.commenter }}</a></li>
+            <li>标签: {% for tag in comment.tags %} <a href="/tag/{{ tag }}">{{ tag }}</a> {% endfor %}</li>
+            <li>评分: {{ comment.score }}</li>
+            <li>评论: {{ comment.content | markdownify }}</li>
+        </ul>
+        {% endfor %}
+    </li>
+</ul>
