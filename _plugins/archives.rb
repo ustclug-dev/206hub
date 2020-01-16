@@ -39,25 +39,17 @@ module Jekyll
         read_commenters
       end
 
+      # We override #tags because we use original #read_tags
       def tags
         @site.tags
       end
 
-      def categories
-        @site.collections
-      end
-
-      def commenters
-        @site.commenters
-      end
-
-      # DO NOT DELETE THIS FUNCTION
+      # We don't override #categories because there're changes here
       def read_categories
         if enabled? "categories"
-          categories.each do |title, posts|
-            if title == "posts"
-              next
-            end
+          @site.collections.each do |title, posts|
+            # Note: this is different
+            next if title == "posts"
             # Jekyll.logger.warn "COLLECTIONS: title: #{title}, posts: #{posts.docs}"
             @archives << Archive.new(@site, title, "category", posts.docs)
           end
@@ -67,7 +59,7 @@ module Jekyll
       def read_commenters
         if enabled? "commenters"
           # Jekyll.logger.warn "#{commenters}"
-          commenters.each do |title, posts|
+          @site.commenters.each do |title, posts|
             @archives << Archive.new(@site, title, "commenter", posts)
           end
         end

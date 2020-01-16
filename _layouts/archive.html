@@ -6,7 +6,7 @@ layout: default
 <ul class="posts">
   {% for post in page.posts %}
     <li>
-      <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.name }}</a>
+      <a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
       {% assign comments = post.comments %}
       {% include score.html %}
       {{ score }}
