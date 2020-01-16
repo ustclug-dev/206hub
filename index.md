@@ -9,6 +9,8 @@
 
 {% for collection in site.collections %}
     {% if collection.label != "posts" %}
-- {{ collection.label }}
+- [{{ collection.label }}](/{{ collection.label }}/)
     {% endif %}
 {% endfor %}
+
+[标签](/tag/)

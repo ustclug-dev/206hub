@@ -40,10 +40,13 @@ collections:
 jekyll-archives:
   enabled:
     - tags
+    - categories
   layouts: 
     tag: archive-tag
+    category: archive-category
   permalinks:
     tag: /tag/:name/
+    category: /:name/
 
 defaults:
   - scope:

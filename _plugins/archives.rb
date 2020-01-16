@@ -25,7 +25,24 @@ module Jekyll
       def read_tags
         if enabled? "tags"
           tags.each do |title, posts|
+            # Jekyll.logger.warn "TAGS: title: #{title}, posts: #{posts}"
             @archives << Archive.new(@site, title, "tag", posts)
+          end
+        end
+      end
+
+      def categories
+        @site.collections
+      end
+
+      def read_categories
+        if enabled? "categories"
+          categories.each do |title, posts|
+            if title == "posts"
+              next
+            end
+            # Jekyll.logger.warn "COLLECTIONS: title: #{title}, posts: #{posts.docs}"
+            @archives << Archive.new(@site, title, "category", posts.docs)
           end
         end
       end
