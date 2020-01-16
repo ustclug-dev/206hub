@@ -1,5 +1,6 @@
 ---
 permalink: /tag/
+layout: default
 ---
 
 # 所有标签

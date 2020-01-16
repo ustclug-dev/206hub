@@ -34,8 +34,10 @@ permalink: /:collection/:name
 collections:
   anime:
     output: true
+    name: 动画
   book:
     output: true
+    name: 书籍
 
 jekyll-archives:
   enabled:
