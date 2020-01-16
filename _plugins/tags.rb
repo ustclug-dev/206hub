@@ -15,4 +15,20 @@ module Jekyll
       end
     end
   end
+
+  module Archives
+    class Archives
+      def tags
+        @site.tags
+      end
+
+      def read_tags
+        if enabled? "tags"
+          tags.each do |title, posts|
+            @archives << Archive.new(@site, title, "tag", posts)
+          end
+        end
+      end
+    end
+  end
 end
