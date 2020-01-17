@@ -10,14 +10,13 @@ comments:
     - commenter: taoky
       tags: [京都动画, 萌系, 音乐]
       score: 9
-      content: >
+      content: |
         test. *test*. **test**.
-
 
         hahahaha
     - commenter: test
       tags: [test1, test2]
       score: 8
-      content: >
+      content: |
         test1test2.
 ---
