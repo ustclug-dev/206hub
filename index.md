@@ -15,4 +15,5 @@ layout: default
 {% endfor %}
 
 [标签](/tag/)
+[搜索](/search/)
 [关于](/about/)

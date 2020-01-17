@@ -75,5 +75,5 @@ comments:
 - `name`: 显示的、用户友好的名称。
 - `common_names`: 别名/原名等。
 - `link`: 放置相关的链接。
-- `meta`: 放置相关的其他信息。其中格式必须如样例一致。
+- `meta`: （可选）放置相关的其他信息。其中格式必须如样例一致。
 - `comments`: 用户评论。每条评论的四个分项都必须包含。其中 `content` 包含的内容为 Markdown 格式。对于多行文本，冒号后必须是 `|`。（备注：关于 YAML 格式的多行文本，详情可见 <https://yaml-multiline.info/>）
