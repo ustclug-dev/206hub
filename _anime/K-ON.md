@@ -15,7 +15,7 @@ comments:
 
         hahahaha
     - commenter: test
-      tags: [test1, test2]
+      tags: [test1, test2, 音乐]
       score: 8
       content: |
         test1test2.

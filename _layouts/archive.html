@@ -11,10 +11,8 @@ layout: default
       {% include score.html %}
       {{ score }}
       {% include tags.html %}
-      {% for tags in tag_list %}
-        {% for tag in tags %}
-          <a href="/tag/{{ tag }}">{{ tag }}</a>
-        {% endfor %}
+      {% for tag in tags %}
+        <a href="/tag/{{ tag }}">{{ tag }}</a>
       {% endfor %}
     </li>
   {% endfor %}

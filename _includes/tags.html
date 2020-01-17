@@ -1,4 +1,14 @@
 {% comment %}
 使用 Liquid 模版计算某一项的所有标签。
 {% endcomment %}
-{% assign tag_list = comments | map: "tags" %}
+{% assign tags_list = comments | map: "tags" %}
+
+{% assign tags = tags_list | first %}
+{% comment %}
+Liquid 不能初始化 array，所以只能先这么写，最后去重。
+{% endcomment %}
+
+{% for tag_list in tags_list %}
+    {% assign tags = tags | concat: tag_list %}
+{% endfor %}
+{% assign tags = tags | uniq | sort %}
