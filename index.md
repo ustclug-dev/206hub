@@ -13,7 +13,3 @@ layout: default
 - [{{ collection.name }}](/{{ collection.label }}/)
     {% endif %}
 {% endfor %}
-
-[标签](/tag/)
-[搜索](/search/)
-[关于](/about/)
