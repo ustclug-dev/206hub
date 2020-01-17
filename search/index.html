@@ -1,0 +1,94 @@
+---
+layout: default
+---
+
+<h1>搜索</h1>
+<input type="text" id="search-input" placeholder="输入需要搜索的关键词……">
+<h3>结果</h3>
+<div id="search-result">
+
+</div>
+
+<script>
+function search(keyword, obj) {
+    // keyword is always a string
+    if (typeof obj === "string") {
+        return obj.includes(keyword) | 0;  // 返回 number
+    } else if (typeof obj === "number") {
+        return obj.toString().includes(keyword) | 0;
+    } else if (Array.isArray(obj)) {
+        let score = 0;
+        for (let i = 0; i < obj.length; i++) {
+            score += search(keyword, obj[i]);
+        }
+        return score;
+    } else {
+        // a dictionary / an object
+        let score = 0;
+        for (let key in obj) {
+            score += search(keyword, obj[key]);
+        }
+        return score;
+    }
+}
+
+function cleanup(data) {
+    return data.filter(value => Object.keys(value).length !== 0);
+}
+
+function draw(result, targetDiv) {
+    // clean-up all child elements
+    while (targetDiv.firstChild) {
+        targetDiv.removeChild(targetDiv.firstChild);
+    }
+    // append
+    for (let i = 0; i < result.length; i++) {
+        if (result[i].score !== 0) {
+            targetDiv.innerHTML += `<li>[${result[i].data.collection}] <a href="${result[i].data.url}">${result[i].data.name}</a></li>`
+        }
+    }
+}
+
+var request = new XMLHttpRequest();
+request.open('GET', './search.json', true);
+
+request.onload = function() {
+    if (this.status >= 200 && this.status < 400) {
+        // Success!
+        var data = JSON.parse(this.response);
+        data = cleanup(data);
+        const inputBox = document.getElementById("search-input");
+        const targetDiv = document.getElementById("search-result");
+        inputBox.oninput = (e) => {
+            let content = inputBox.value;
+            let keywords = content.split(/[ ,]+/);
+            let result = [];
+            if (content) {
+                for (let i = 0; i < data.length; i++) {
+                    let score = 0;
+                    for (let j = 0; j < keywords.length; j++) {
+                        score += search(keywords[j], data[i]), data[i];
+                    }
+                    result.push({
+                        "data": data[i],
+                        "score": score
+                    });
+                }
+                result.sort(function (x, y) {
+                    return x.score < y.score;
+                });
+                console.log(result);
+                draw(result, targetDiv);
+            }
+        }
+    } else {
+        console.warn("We reached our target server, but it returned an error");
+    }
+};
+
+request.onerror = function() {
+    console.warn("There was a connection error of some sort");
+};
+
+request.send();
+</script>
