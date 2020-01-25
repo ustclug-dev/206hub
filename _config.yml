@@ -29,8 +29,10 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 plugins:
   - jekyll-archives
 
-permalink: /:collection/:name
+permalink: /:collection/:name/
 
+# rename collections_example to collections, and start.
+collections_dir: collections
 collections:
   anime:
     output: true
@@ -55,7 +57,7 @@ jekyll-archives:
 
 defaults:
   - scope:
-      path: "_*/*.md"
+      path: "collections/_*/*.md"
     values:
       layout: item
 
@@ -78,3 +80,5 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+exclude:
+  - collections_example/
