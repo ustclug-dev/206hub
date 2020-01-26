@@ -31,7 +31,6 @@ plugins:
 
 permalink: /:collection/:name/
 
-# rename collections_example to collections, and start.
 collections_dir: collections
 collections:
   anime:
@@ -80,5 +79,3 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-exclude:
-  - collections_example/
