@@ -77,3 +77,35 @@ comments:
 - `link`: 放置相关的链接。
 - `meta`: （可选）放置相关的其他信息。其中格式必须如样例一致。
 - `comments`: 用户评论。每条评论的四个分项都必须包含。其中 `content` 包含的内容为 Markdown 格式。对于多行文本，冒号后必须是 `|`。（备注：关于 YAML 格式的多行文本，详情可见 <https://yaml-multiline.info/>）
+
+#### 如何写剧透？
+
+格式是：
+
+```markdown
+<details markdown="1">
+<summary>
+  以下有剧透（你可以换成别的词，虽然这个 HTML 标签本来不是这么用的，只是刚好能够实现目的）。
+</summary>
+    
+是剧透的
+
+内容。
+</details>
+```
+
+理论上的效果如下：
+
+<details markdown="1">
+<summary>
+  以下有剧透（你可以换成别的词，虽然这个 HTML 标签本来不是这么用的，只是刚好能够实现目的）。
+</summary>
+    
+是剧透的
+
+内容。
+</details>
+
+注意：Kramdown（Jekyll 默认的 Markdown 渲染引擎）要求 `markdown="1"`，并且闭合的标签必须在新行行首，否则 Markdown 不会被正确渲染。详细内容见 <https://github.com/gettalong/kramdown/issues/155>。
+
+未来可能会更换渲染引擎到 <https://github.com/github/jekyll-commonmark-ghpages>，与 GitHub 主站使用的一致。
