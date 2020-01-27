@@ -12,7 +12,7 @@ layout: default
       {{ score }}
       {% include tags.html %}
       {% for tag in tags %}
-        <a href="/tag/{{ tag }}">{{ tag }}</a>
+        <a href="/tag/{{ tag | slugify }}">{{ tag }}</a>
       {% endfor %}
     </li>
   {% endfor %}
