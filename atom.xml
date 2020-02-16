@@ -16,6 +16,7 @@
             <entry>
                 <title>{{ comment.commenter }} 评论了 {{ item.name }} ({{ collection.label }})</title>
                 <id>{{ item.url | absolute_url }}#{{ comment.commenter | slugify }}</id>
+                <link type="text/html" href="{{ item.url | absolute_url }}#{{ comment.commenter | slugify }}" rel="alternate"/>
                 <updated>{{ comment.date | date_to_xmlschema }}</updated>
                 <author><name>{{ comment.commenter }}</name></author>
                 <content type="html">
