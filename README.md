@@ -39,7 +39,7 @@
     其中每一项的 `output: true` **是必要的**，否则不会生成对应的 HTML 文件。`name` 用于其显示给用户的名字。
 2. 在项目根目录新建以 `_` 开头，后面为分类名称的文件夹。
 
-注意：请不要将你的分类命名为 `posts`。
+注意：请不要将你的分类命名为 `about`, `commenters`, `posts`, `search` 或 `tag`。
 
 ### 为分类添加项
 
@@ -59,11 +59,13 @@ comments:
     - commenter: user1
       tags: [计算机]
       score: 9.5
-      content: >
+      date: 2020-02-16 17:35
+      content: |
         Amazing!
     - commenter: user2
-      tags: [testtag1, testtag2]
+      tags: [testtag1, testtag2, "test tag 3"]
       score: 9
+      date: 2020-01-12 00:06
       content: |
         This is a *test*.
 
@@ -76,7 +78,10 @@ comments:
 - `common_names`: 别名/原名等。
 - `link`: 放置相关的链接。
 - `meta`: （可选）放置相关的其他信息。其中格式必须如样例一致。
-- `comments`: 用户评论。每条评论的四个分项都必须包含。其中 `content` 包含的内容为 Markdown 格式。对于多行文本，冒号后必须是 `|`。（备注：关于 YAML 格式的多行文本，详情可见 <https://yaml-multiline.info/>）
+- `comments`: 用户评论。每条评论的五个分项都必须包含，其中：
+  - `score` 是一个整数或浮点数。约定范围在 [0, 10]。
+  - `date` 格式为 `年-月-日 时:分`，可以不精确。**不要添加秒和时区偏差**，除非写评论的时候不在 CST 时区。
+  - `content` 包含的内容为 Markdown 格式。对于多行文本，冒号后必须是 `|`。（备注：关于 YAML 格式的多行文本，详情可见 <https://yaml-multiline.info/>）
 
 #### 如何写剧透？
 
