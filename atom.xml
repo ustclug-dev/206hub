@@ -1,0 +1,29 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text" xml:lang="en">{{ site.title }}</title>
+  <id>{{ site.url }}</id>
+  <link type="application/atom+xml" href="{{ '/atom.xml' | absolute_url }}" rel="self"/>
+  <link type="text/html" href="/" rel="alternate"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <rights>comments' copyrights belong to their creators</rights>
+
+    {% for collection in site.collections %}
+    {% if collection.docs.size > 0 %}
+        {% for item in collection.docs %}
+            {% for comment in item.comments %}
+            <entry>
+                <title>{{ comment.commenter }} 评论了 {{ item.name }} ({{ collection.label }})</title>
+                <id>{{ item.url | absolute_url }}#{{ comment.commenter | slugify }}</id>
+                <updated>{{ comment.date | date_to_xmlschema }}</updated>
+                <author><name>{{ comment.commenter }}</name></author>
+                <content type="html">
+                    <![CDATA[{% include comment.html %}]]>
+                </content>
+            </entry>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    {% endfor %}
+</feed>

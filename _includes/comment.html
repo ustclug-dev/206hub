@@ -1,0 +1,8 @@
+<ul>
+    <li id="{{ comment.commenter | slugify }}">
+        <p>评论者: <a href="/commenters/{{ comment.commenter }}">{{ comment.commenter }}</a></p>
+    <p>标签: {% for tag in comment.tags %} <a href="/tag/{{ tag | slugify }}">{{ tag }}</a> {% endfor %}</p>
+    <p>评分: {{ comment.score }}</p>
+    <p>评论: </p>{{ comment.content | markdownify }}
+    </li>
+</ul>
