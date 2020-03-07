@@ -1,4 +1,5 @@
 # 206hub
+
 206 的物品评论与交流平台
 
 ## 计划的功能
@@ -39,7 +40,11 @@
     其中每一项的 `output: true` **是必要的**，否则不会生成对应的 HTML 文件。`name` 用于其显示给用户的名字。
 2. 在项目根目录新建以 `_` 开头，后面为分类名称的文件夹。
 
-注意：请不要将你的分类命名为 `about`, `commenters`, `posts`, `search` 或 `tag`。
+注意：请不要将你的分类命名为 `about`, `commenters`, `search` 或 `tag`。另外，Jekyll 将以下目录用作特殊用途，因此也不要将你的分类命名为它们。
+
+```text
+_data _includes _layout _pages _plugins _posts _sass _site
+```
 
 ### 为分类添加项
 
@@ -94,7 +99,7 @@ comments:
 <summary>
   以下有剧透（你可以换成别的词，虽然这个 HTML 标签本来不是这么用的，只是刚好能够实现目的）。
 </summary>
-    
+
 是剧透的
 
 内容。
@@ -107,7 +112,7 @@ comments:
 <summary>
   以下有剧透（你可以换成别的词，虽然这个 HTML 标签本来不是这么用的，只是刚好能够实现目的）。
 </summary>
-    
+
 是剧透的
 
 内容。
