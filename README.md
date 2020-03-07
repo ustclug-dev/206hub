@@ -85,6 +85,8 @@ comments:
 
 #### 如何写剧透？
 
+##### Block
+
 格式是：
 
 ```markdown
@@ -114,3 +116,7 @@ comments:
 注意：Kramdown（Jekyll 默认的 Markdown 渲染引擎）要求 `markdown="1"`，并且闭合的标签必须在新行行首，否则 Markdown 不会被正确渲染。详细内容见 <https://github.com/gettalong/kramdown/issues/155>。
 
 未来可能会更换渲染引擎到 <https://github.com/github/jekyll-commonmark-ghpages>，与 GitHub 主站使用的一致。
+
+##### Inline
+
+格式：`<sp>剧透的内容</sp>`。显示效果是透明的，只有在鼠标移上去/点击屏幕的时候才会渐变出现。
