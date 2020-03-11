@@ -2,40 +2,45 @@
 layout: default
 ---
 
-<h1>{{ page.name }}</h1>
-{% include score.html comments=page.comments %}
-<h3>平均得分: {{ score }}</h3>
-<ul>
-    <li>其他名称: 
-        <ul>
-        {% for name in page.common_names %} 
-            <li>{{ name }}</li>
-        {% endfor %}
-        </ul>
-    </li>
-    <li>辅助链接:
-        <ul>
-    {% for link in page.link %}
-        <li>
-            <a href='{{ link.link }}'>{{ link.source }}</a>
-        </li>
-    {% endfor %}
-        </ul>
-    </li>
-    {% if page.meta %}
-    <li>其他元信息:
-        <ul>
-            {% for meta in page.meta %}
-            <li>
-                {{ meta.name }}: {{ meta.value }}
-            </li>
-            {% endfor %}
-        </ul>
-    </li>
-    {% endif %}
-    <li>评论:
-        {% for comment in page.comments %}
-        {% include comment.html %}
-        {% endfor %}
-    </li>
-</ul>
+<div class="card bg-light shadow-sm">
+	<div class="card-header text-white bg-info py-3">
+		<h1 class="mb-0">{{ page.name }}</h1>
+	</div>
+	<div class="card-body">
+		<dl class="row mb-0">
+			<dt class="col-sm-2">其他名称</dt>
+			<dd class="col-sm-10">
+				{% for name in page.common_names %}
+					<p>{{ name }}</p>
+				{% endfor %}
+			</dd>
+			<dt class="col-sm-2">辅助链接</dt>
+			<dd class="col-sm-10">
+				{% for link in page.link %}
+					<p>
+						<a href='{{ link.link }}'>{{ link.source }}</a>
+					</p>
+				{% endfor %}
+			</dd>
+			{% if page.meta %}
+				<dt class="col-sm-2">其他元信息</dt>
+				<dd class="col-sm-10">
+					<dl class="row">
+						{% for meta in page.meta %}
+							<dt class="col-sm-3">{{ meta.name }}</dt>
+							<dd class="col-sm-9">{{ meta.value | markdownify }}</dd>
+						{% endfor %}
+					</dl>
+				</dd>
+			{% endif %}
+		</dl>
+	</div>
+	<div class="card-footer text-white bg-info">
+		{% include score.html comments=page.comments %}
+		<h3 class="lead mb-0">平均得分: <b>{{ score }}</b></h3>
+	</div>
+</div>
+
+{% for comment in page.comments %}
+	{% include comment.html %}
+{% endfor %}
