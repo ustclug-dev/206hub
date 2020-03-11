@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div class="card bg-light shadow-sm">
-	<div class="card-header text-white bg-info py-3">
+	<div class="card-header text-white bg-info text-center py-3">
 		<h1 class="mb-0">{{ page.name }}</h1>
 	</div>
 	<div class="card-body">
@@ -35,9 +35,9 @@ layout: default
 			{% endif %}
 		</dl>
 	</div>
-	<div class="card-footer text-white bg-info">
+	<div class="card-footer text-white bg-info text-center">
 		{% include score.html comments=page.comments %}
-		<h3 class="lead mb-0">平均得分: <b>{{ score }}</b></h3>
+		<span class="lead mb-0">平均得分: <b>{{ score }}</b></span>
 	</div>
 </div>
 

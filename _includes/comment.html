@@ -1,16 +1,18 @@
-<div class="card bg-light shadow-sm" id="{{ comment.commenter | slugify }}">
+<div class="card bg-light shadow-sm mb-3" id="{{ comment.commenter | slugify }}">
 	<div class="card-header">
-		<span class="lead">
+		<h3 class="mb-0">
 			<a href="{{ comment.commenter | slugify | prepend: "/commenters/" | relative_url }}">{{ comment.commenter }}</a>
-		</span>
+		</h3>
 	</div>
 	<div class="card-body">
 		{{ comment.content | markdownify }}
 	</div>
 	<div class="card-footer">
-		<div class="lead">{{ comment.score }} 分</div>
+		<h3 class="float-left mb-0">{{ comment.score }} 分</h3>
 		<div class="float-right">
-			{% for tag in comment.tags %}<a class="btn btn-outline-primary" href="{{ tag | slugify | prepend: "/tag/" | relative_url }}">{{ tag }}</a>{% unless forloop.last %},{% endunless %}{% endfor %}
+			{% for tag in comment.tags %}
+				<a class="btn btn-outline-primary" href="{{ tag | slugify | prepend: "/tag/" | relative_url }}">{{ tag }}</a>
+			{% endfor %}
 		</div>
 	</div>
 </div>
