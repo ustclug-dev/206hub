@@ -3,8 +3,7 @@ layout: default
 ---
 
 <h1>{{ page.name }}</h1>
-{% assign comments = page.comments %}
-{% include score.html %}
+{% include score.html comments=page.comments %}
 <h3>平均得分: {{ score }}</h3>
 <ul>
     <li>其他名称: 

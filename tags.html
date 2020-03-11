@@ -1,0 +1,18 @@
+---
+permalink: /tag/
+layout: default
+---
+
+<div class="card bg-light shadow-sm">
+	<div class="card-header py-3">
+		<h3 class="mb-0">所有标签</h3>
+	</div>
+	<div class="card-body p-0">
+		{% for tag in site.tags %}
+			<a href="{{ tag | first | slugify | prepend: "/tag/" | relative_url }}"
+			class="btn btn-outline-primary">
+				{{ tag | first }}
+			</a>
+		{% endfor %}
+	</div>
+</div>
