@@ -7,10 +7,9 @@ layout: default
   {% for post in page.posts %}
     <li>
       <a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
-      {% assign comments = post.comments %}
-      {% include score.html %}
+      {% include score.html comments=post.comments %}
       {{ score }}
-      {% include tags.html %}
+      {% include tags.html comments=post.comments %}
       {% for tag in tags %}
         <a href="/tag/{{ tag | slugify }}">{{ tag }}</a>
       {% endfor %}

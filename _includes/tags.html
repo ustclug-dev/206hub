@@ -1,7 +1,7 @@
 {% comment %}
 使用 Liquid 模版计算某一项的所有标签。
 {% endcomment %}
-{% assign tags_list = comments | map: "tags" %}
+{% assign tags_list = include.comments | map: "tags" %}
 
 {% assign tags = tags_list | first %}
 {% comment %}
