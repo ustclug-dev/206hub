@@ -10,17 +10,21 @@ layout: default
 		<dl class="row mb-0">
 			<dt class="col-sm-2">其他名称</dt>
 			<dd class="col-sm-10">
-				{% for name in page.common_names %}
-					<p>{{ name }}</p>
-				{% endfor %}
+			  <ul class="list-unstyled">
+					{% for name in page.common_names %}
+						<li>{{ name }}</li>
+					{% endfor %}
+				</ul>
 			</dd>
 			<dt class="col-sm-2">辅助链接</dt>
 			<dd class="col-sm-10">
-				{% for link in page.link %}
-					<p>
-						<a href="{{ link.link }}">{{ link.source }}</a>
-					</p>
-				{% endfor %}
+			  <ul class="list-unstyled">
+					{% for link in page.link %}
+						<li>
+							<a href="{{ link.link }}">{{ link.source }}</a>
+						</li>
+					{% endfor %}
+				</ul>
 			</dd>
 			{% if page.meta %}
 				<dt class="col-sm-2">其他元信息</dt>
