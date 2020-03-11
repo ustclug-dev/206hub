@@ -22,9 +22,8 @@ layout: default
 					<ul class="list-unstyled mt-3 mb-4">
 						{% assign comment_cnt = 0 %}
 						{% for item in collection.docs %}
-							{% for comment in item.comments %}
-								{% assign comment_cnt = comment_cnt | plus: 1 %}
-							{% endfor %}
+							{% assign value = item.comments | size %}
+							{% assign comment_cnt = comment_cnt | plus: value %}
 						{% endfor %}
 						<li>合计 {{ comment_cnt }} 条评论</li>
 					</ul>
