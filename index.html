@@ -12,7 +12,7 @@ layout: default
 
 {% for collection in site.collections %}
 	{% unless collection.label == "posts" %}
-		{% cycle 'card rows': '<div class="card-deck mb-3 text-center">', null, null %}
+		{% cycle 'card rows': '<div class="card-deck mb-3 text-center">', '', '' %}
 			<div class="card mb-4 shadow">
 				<div class="card-header">
 					<h4 class="my-0 font-weight-normal">{{ collection.name }}</h4>
@@ -31,6 +31,6 @@ layout: default
 					<a href="{{ collection.label | prepend: "/" | relative_url }}" class="btn btn-lg btn-block btn-primary">View</a>
 				</div>
 			</div>
-		{% cycle 'card rows': '</div>', null, null %}
+		{% cycle 'card rows': '</div>', '', '' %}
 	{% endunless %}
 {% endfor %}
