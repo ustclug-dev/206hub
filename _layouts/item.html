@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div class="card bg-light shadow-sm mb-3">
+<div class="card bg-light shadow-sm border-info mb-3">
 	<div class="card-header text-white bg-info text-center py-3">
 		<h1 class="mb-0">{{ page.name }}</h1>
 	</div>
@@ -18,7 +18,7 @@ layout: default
 			<dd class="col-sm-10">
 				{% for link in page.link %}
 					<p>
-						<a href='{{ link.link }}'>{{ link.source }}</a>
+						<a href="{{ link.link }}">{{ link.source }}</a>
 					</p>
 				{% endfor %}
 			</dd>
@@ -27,8 +27,8 @@ layout: default
 				<dd class="col-sm-10">
 					<dl class="row">
 						{% for meta in page.meta %}
-							<dt class="col-sm-3">{{ meta.name }}</dt>
-							<dd class="col-sm-9">{{ meta.value | markdownify }}</dd>
+							<dt class="col-sm-auto">{{ meta.name }}</dt>
+							<dd class="col">{{ meta.value | markdownify }}</dd>
 						{% endfor %}
 					</dl>
 				</dd>
