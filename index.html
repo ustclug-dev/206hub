@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<h1 class="text-center">所有分类</h1>
+
+{% comment %}
+在 Jekyll 的 site.collections 中，posts 是默认硬编码在其中的。所以，在循环时，必须手动排除 posts。
+{% endcomment %}
+
+<div class="card-deck mb-3 text-center">
+	{% for collection in site.collections %}
+		{% if collection.label == "posts" %}
+			{% continue %}
+		{% endif %}
+
+		<div class="card mb-4 box-shadow">
+			<div class="card-header">
+				<h4 class="my-0 font-weight-normal">{{ collection.name }}</h4>
+			</div>
+			<div class="card-body">
+				<h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1>
+				<ul class="list-unstyled mt-3 mb-4">
+					<li>20 users included</li>
+					<li>10 GB of storage</li>
+					<li>Priority email support</li>
+					<li>Help center access</li>
+				</ul>
+				<a href="{{ collection.label | prepend: "/" | relative_url }}" class="btn btn-lg btn-block btn-primary">Go</button>
+			</div>
+		</div>
+	{% endfor %}
+</div>
