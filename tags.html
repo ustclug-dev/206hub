@@ -8,11 +8,13 @@ layout: default
 		<h3 class="mb-0">所有标签</h3>
 	</div>
 	<div class="card-body p-0">
-		{% for tag in site.tags %}
-			<a href="{{ tag | first | slugify | prepend: "/tag/" | relative_url }}"
-			class="btn btn-outline-primary">
-				{{ tag | first }}
-			</a>
-		{% endfor %}
+		<div class="container py-2" style="line-height: 2.6rem;">
+			{% for tag in site.tags %}
+				<a href="{{ tag | first | slugify | prepend: "/tag/" | relative_url }}"
+					 class="btn btn-outline-primary">
+					{{ tag | first }}
+				</a>
+			{% endfor %}
+		</div>
 	</div>
 </div>
