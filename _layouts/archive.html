@@ -3,40 +3,40 @@ layout: default
 ---
 
 <div class="card bg-light shadow-sm">
-	<div class="card-header py-3">
-		<h3 class="mb-0">
-			{{ page.type | capitalize }}: {{ page.title }}
-		</h3>
-	</div>
-	<div class="card-body p-0">
-		<table class="table table-hover mb-0">
-			<thead>
-				<tr>
-					<th>Post</th>
-					<th>Score</th>
-					<th>Tags</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for post in page.posts %}
-					<tr>
-						<td>
-							<a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
-						</td>
-						<td>
-							{% include score.html comments=post.comments %}
-							{{ score }}
-						</td>
-						<td>
-							{% include tags.html comments=post.comments %}
-							{% for tag in tags %}
-								<a href="{{ tag | slugify | prepend: '/tag/' | relative_url }}">{{ tag }}</a>
-								{%- unless forloop.last %},{% endunless -%}
-							{% endfor %}
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+  <div class="card-header py-3">
+    <h3 class="mb-0">
+      {{ page.type | capitalize }}: {{ page.title }}
+    </h3>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Post</th>
+          <th>Score</th>
+          <th>Tags</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in page.posts %}
+          <tr>
+            <td>
+              <a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
+            </td>
+            <td>
+              {% include score.html comments=post.comments %}
+              {{ score }}
+            </td>
+            <td>
+              {% include tags.html comments=post.comments %}
+              {% for tag in tags %}
+                <a href="{{ tag | slugify | prepend: '/tag/' | relative_url }}">{{ tag }}</a>
+                {%- unless forloop.last %},{% endunless -%}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>

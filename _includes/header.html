@@ -1,41 +1,41 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-	<a class="navbar-brand" href="/">206hub</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	{% assign url_dir = page.url | split: '/' %}
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item {% if page.url == '/' %} active {% endif %}">
-				<a class="nav-link" href="/">主页</a>
-			</li>
-			<li class="nav-item {% if url_dir[1] == 'tag' %} active {% endif %}">
-				<a class="nav-link" href="/tag/">标签</a>
-			</li>
-			<li class="nav-item {% if url_dir[1] == 'search' %} active {% endif %}">
-				<a class="nav-link" href="/search/">搜索</a>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					分类
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					{% for collection in site.collections %}
-						{% if collection.label != "posts" %}
-							<a class="dropdown-item {% if url_dir[1] == collection.label %} active {% endif %}" 
-								 href="/{{ collection.label }}/">{{ collection.name }}</a>
-						{% endif %}
-					{% endfor %}
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/atom.xml">RSS</a>
-			</li>
-		</ul>
-		<ul class="navbar-nav my-2 my-lg-0">
-			<li class="nav-item {% if url_dir[1] == 'about' %} active {% endif %}">
-				<a class="nav-link" href="/about/">关于</a>
-			</li>
-		</ul>
-	</div>
+  <a class="navbar-brand" href="/">206hub</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  {% assign url_dir = page.url | split: '/' %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if page.url == '/' %} active {% endif %}">
+        <a class="nav-link" href="/">主页</a>
+      </li>
+      <li class="nav-item {% if url_dir[1] == 'tag' %} active {% endif %}">
+        <a class="nav-link" href="/tag/">标签</a>
+      </li>
+      <li class="nav-item {% if url_dir[1] == 'search' %} active {% endif %}">
+        <a class="nav-link" href="/search/">搜索</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          分类
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {% for collection in site.collections %}
+            {% if collection.label != "posts" %}
+              <a class="dropdown-item {% if url_dir[1] == collection.label %} active {% endif %}" 
+                 href="/{{ collection.label }}/">{{ collection.name }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/atom.xml">RSS</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav my-2 my-lg-0">
+      <li class="nav-item {% if url_dir[1] == 'about' %} active {% endif %}">
+        <a class="nav-link" href="/about/">关于</a>
+      </li>
+    </ul>
+  </div>
 </nav>
