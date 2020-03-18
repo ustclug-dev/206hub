@@ -13,6 +13,7 @@ layout: default
       <thead>
         <tr>
           <th>Post</th>
+          <th>Comments</th>
           <th>Score</th>
           <th>Tags</th>
         </tr>
@@ -22,6 +23,9 @@ layout: default
           <tr>
             <td>
               <a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
+            </td>
+            <td>
+              {{ post.comments.size }}
             </td>
             <td>
               {% include score.html comments=post.comments %}
