@@ -8,41 +8,39 @@ layout: default
   </div>
   <div class="card-body">
     <div class="container row m-0 p-0">
-      <div class="col">
+      <div class="col col-12 col-sm">
         <dl class="row mb-0">
-          <dt class="col-sm-2">其他名称</dt>
-          <dd class="col-sm-10">
-          <ul class="list-unstyled">
-            {% for name in page.common_names %}
-              <li>{{ name }}</li>
-            {% endfor %}
-          </ul>
+          <dt class="col col-12 col-lg-2">其他名称</dt>
+          <dd class="col col-12 col-lg-10">
+            <ul class="list-unstyled">
+              {% for name in page.common_names %}
+                <li>{{ name }}</li>
+              {% endfor %}
+            </ul>
           </dd>
-          <dt class="col-sm-2">辅助链接</dt>
-          <dd class="col-sm-10">
-          <ul class="list-unstyled">
-            {% for link in page.link %}
-              <li>
-                <a href="{{ link.link }}">{{ link.source }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+          <dt class="col col-12 col-lg-2">辅助链接</dt>
+          <dd class="col col-12 col-lg-10">
+            <ul class="list-unstyled">
+              {% for link in page.link %}
+                <li><a href="{{ link.link }}">{{ link.source }}</a></li>
+              {% endfor %}
+            </ul>
           </dd>
           {% if page.meta %}
-            <dt class="col-sm-2">其他元信息</dt>
-            <dd class="col-sm-10">
-            <dl class="row">
-              {% for meta in page.meta %}
-                <dt class="col-sm-auto">{{ meta.name }}</dt>
-                <dd class="col">{{ meta.value | markdownify }}</dd>
-              {% endfor %}
-            </dl>
+            <dt class="col col-12 col-lg-2">其他元信息</dt>
+            <dd class="col col-12 col-lg-10">
+              <dl class="row">
+                {% for meta in page.meta %}
+                  <dt class="col-auto">{{ meta.name }}</dt>
+                  <dd class="col">{{ meta.value | markdownify }}</dd>
+                {% endfor %}
+              </dl>
             </dd>
           {% endif %}
         </dl>
       </div>
-      <div class="col-auto px-0">
-        <img src="{{ page.image | default: "https://via.placeholder.com/240x320.png?text=TaoKY%20Strong" }}" />
+      <div class="col col-12 col-md-auto px-0">
+        <img class="d-block mx-auto" src="{{ page.image | default: "https://via.placeholder.com/240x320.png?text=TaoKY%20Strong" }}" />
       </div>
     </div>
   </div>
