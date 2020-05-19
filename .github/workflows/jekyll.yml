@@ -24,11 +24,6 @@ jobs:
           ${{ runner.os }}-gems-
     - name: Bundle install
       run: bundle install --path=vendor/bundle --jobs=4 --retry=3
-
-    - name: Prepare build
-      run: |
-        git clone --depth=1 --branch=gh-pages --single-branch --no-checkout \
-          "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" _site
     - name: Build
       env:
         JEKYLL_ENV: production
