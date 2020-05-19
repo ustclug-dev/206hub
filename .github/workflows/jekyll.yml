@@ -1,6 +1,9 @@
-name: Jekyll site CI
+name: Jekyll site CI (Test only)
 
-on: [push]
+on:
+  push:
+    branches: 
+      - master
 
 jobs:
   build:
@@ -9,8 +12,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Build the site in the jekyll/builder container
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Bundle install
+      run: bundle install --path=vendor/bundle --jobs=4 --retry=3
+    - name: Build
+      env:
+        JEKYLL_ENV: production
       run: |
-        docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
+        bundle exec jekyll build --profile --trace
+        :> _site/.nojekyll
