@@ -10,11 +10,16 @@ layout: default
 在 Jekyll 的 site.collections 中，posts 是默认硬编码在其中的。所以，在循环时，必须手动排除 posts。
 
 为了让 card 显示为三个一排，需要使用 { cycle } 标签，开头的 div.sr-only 是个 hack
+
+新 Hack: 为了用空的 div 补齐一行三个，弄一点数学运算
 {% endcomment %}
+
+{% assign card_count = 0 %}
 
 <div class="sr-only">
 {% for collection in site.collections %}
 	{% unless collection.label == "posts" %}
+    {% assign card_count = card_count | plus: 1 %}
 		{% cycle '</div><div class="card-deck mb-3 text-center">', '', '' %}
 		<div class="card mb-4 shadow">
 			<div class="card-header">
@@ -34,5 +39,18 @@ layout: default
 			</div>
 		</div>
 	{% endunless %}
+{% endfor %}
+
+{% comment %} 接下来开始补齐 {% endcomment %}
+{% for i in (1..3) %}
+  {% assign break_var = card_count | modulo: 3 %}
+  {% if break_var == 0 %}
+    {% break %}
+  {% endif %}
+  {% assign card_count = card_count | plus: 1 %}
+  <!-- <div class="card mb-4 invisible"></div> -->
+  <div class="card mb-4 shadow">
+    <img class="card-img-top" src="https://ibugone.com/image/Taoky-Is-Strong.png" alt="Taoky Is Strong" style="position: absolute; top: 50%; transform: translateY(-50%);">
+  </div>
 {% endfor %}
 </div>
