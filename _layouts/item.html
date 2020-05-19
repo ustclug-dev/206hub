@@ -39,9 +39,11 @@ layout: default
           {% endif %}
         </dl>
       </div>
+      {% if page.image %}
       <div class="col col-12 col-md-auto px-0">
-        <img class="mw-100 d-block mx-auto" src="{{ page.image | default: "https://via.placeholder.com/240x320.png?text=taoky%20strong" }}" />
+        <img class="mw-100 d-block mx-auto" src="{{ page.image }}" />
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="card-footer text-white bg-info text-center">
