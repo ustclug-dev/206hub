@@ -1,5 +1,7 @@
 # 206hub
 
+![Jekyll site CI (Test only)](https://github.com/taoky/206hub/workflows/Jekyll%20site%20CI%20(Test%20only)/badge.svg)
+
 206 的物品评论与交流平台
 
 ## 计划的功能
