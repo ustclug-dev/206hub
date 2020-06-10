@@ -1,4 +1,4 @@
-<div class="card bg-light shadow-sm mb-3" id="{{ comment.commenter | slugify }}">
+<div class="card bg-light shadow-sm mt-3" id="{{ comment.commenter | slugify }}">
   <div class="card-header">
     <h3 class="mb-0">
       <a href="{{ comment.commenter | slugify | prepend: "/commenters/" | relative_url }}">{{ comment.commenter }}</a> 的评论
