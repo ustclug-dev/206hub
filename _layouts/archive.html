@@ -34,8 +34,7 @@ layout: default
             <td>
               {% include tags.html comments=post.comments %}
               {% for tag in tags %}
-                <a href="{{ tag | slugify | prepend: '/tag/' | relative_url }}">{{ tag }}</a>
-                {%- unless forloop.last %},{% endunless -%}
+                <a class="btn btn-outline-primary" href="{{ tag | slugify | prepend: '/tag/' | relative_url }}">{{ tag }}</a>
               {% endfor %}
             </td>
           </tr>
