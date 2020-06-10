@@ -1,7 +1,7 @@
 ---
 layout: card
 title: 关于
-color: primary
+color: success
 permalink: /about/
 ---
 
