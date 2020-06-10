@@ -1,6 +1,7 @@
 ---
-layout: default
+layout: card
 title: 关于
+color: primary
 permalink: /about/
 ---
 

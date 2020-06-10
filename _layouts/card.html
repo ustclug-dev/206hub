@@ -1,0 +1,13 @@
+---
+layout: default
+---
+
+{% assign color = page.color | default: 'info' %}
+<div class="card bg-light shadow-sm border-{{ color }} mb-3">
+  <div class="card-header text-{{ page.text-color | default: 'white' }} bg-{{ color }} text-center py-3">
+    <h1 class="mb-0">{{ page.title | default: site.title }}</h1>
+  </div>
+  <div class="card-body">
+    {{ content }}
+  </div>
+</div>
