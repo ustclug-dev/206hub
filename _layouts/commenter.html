@@ -3,15 +3,51 @@ layout: default
 ---
 
 <h1>用户: {{ page.title }}</h1>
+<button class="btn btn-primary" id="download">下载用户数据 (JSON)</button>
 <ul class="posts">
   {% for post in page.posts %}
     <li>
       <a class="post-link" href="{{ post.url | relative_url }}">{{ post.name }}</a>
-      {% for comment in post.comments %}
-        {% if comment.commenter == page.title %}
-          {{ comment }}
-        {% endif %}
-      {% endfor %}
+      <details name="{{ post.name }}">
+        <summary>
+          查看 JSON 格式存档
+        </summary>
+        <code>
+        {% for comment in post.comments %}
+          {% if comment.commenter == page.title %}
+            {{ comment | jsonify | escape }}
+          {% endif %}
+        {% endfor %}
+      </code>
+      </details>
     </li>
   {% endfor %}
 </ul>
+
+<script>
+  const downloadBtn = document.getElementById("download");
+  downloadBtn.onclick = (e) => {
+    let contents = {};
+    const postList = document.getElementsByClassName("posts")[0];
+    for (let i = 0; i < postList.children.length; i++) {
+      const detailLabel = postList.children[i].querySelector("details");
+      const postName = detailLabel.getAttribute("name");
+      const commentJSONString = detailLabel.querySelector("code").textContent.trim();
+      contents[postName] = JSON.parse(commentJSONString);
+    }
+    const blob = new Blob([JSON.stringify(contents)], {
+      type: 'application/json',
+    });
+    const url = window.URL.createObjectURL(blob);
+
+    const tmp_a = document.createElement("a");
+    tmp_a.style = "display: none";
+    document.body.appendChild(tmp_a);
+
+    tmp_a.href = url;
+    tmp_a.download = "{{ page.title }}.json";
+    tmp_a.click();
+    tmp_a.remove();
+    window.URL.revokeObjectURL(url);
+  };
+</script>
