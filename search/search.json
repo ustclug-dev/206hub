@@ -11,7 +11,7 @@ permalink: /search/search.json
         {% if collection.docs.size > 0 %}
             {% for item in collection.docs %}
                 {
-                    "collection": {{ collection.label | jsonify }},
+                    "collection": {{ collection.name | jsonify }},
                     "url": {{ item.url | jsonify }},
                     "name": {{ item.name | jsonify }},
                     "common_names": {{ item.common_names | jsonify }},
