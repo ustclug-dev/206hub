@@ -5,23 +5,17 @@ import matter from "gray-matter"
 import remark from "remark"
 import html from "remark-html"
 
+import { Collections, ItemsInCollection, Authors, CommentsOfItem, Comment, CommentMetadata } from './type'
+
 const dataDirectory = path.join(process.cwd(), "data")
 
-export function getCollections(): Map<string, { name: string }> {
+export function getCollections(): Collections {
   const collectionsYamlFile = path.join(dataDirectory, "collections.yaml")
   const collections = yaml.load(fs.readFileSync(collectionsYamlFile, "utf8"))
   return collections
 }
 
-export function getItemsInCollection(collection: string): Map<
-  string,
-  {
-    name: string
-    aliases: string[]
-    links: { source: string; link: string }[]
-    meta: { name: string; value: string }[]
-  }
-> {
+export function getItemsInCollection(collection: string): ItemsInCollection {
   const collectionDirectory = path.join(dataDirectory, collection)
   const itemNames = fs.readdirSync(collectionDirectory).filter((itemName) => {
     if (itemName.startsWith(".")) {
@@ -40,7 +34,7 @@ export function getItemsInCollection(collection: string): Map<
   return items
 }
 
-export function getAuthors(): Map<string, { name: string; avatar: string }> {
+export function getAuthors(): Authors {
   const authorsYamlFile = path.join(dataDirectory, "authors.yaml")
   const authors = yaml.load(fs.readFileSync(authorsYamlFile, "utf8"))
   return authors
@@ -49,7 +43,7 @@ export function getAuthors(): Map<string, { name: string; avatar: string }> {
 export function getCommentListOfItem(
   collection: string,
   item: string
-): string[] {
+): CommentsOfItem {
   const itemDirectory = path.join(dataDirectory, collection, item)
   const commentAuthors = fs
     .readdirSync(itemDirectory)
@@ -58,15 +52,23 @@ export function getCommentListOfItem(
   return commentAuthors
 }
 
+export function getCommentMetadata(
+  collection: string,
+  item: string,
+  author: string,
+): CommentMetadata {
+  const commentFile = path.join(dataDirectory, collection, item, author + ".md")
+  const matterResult = matter(fs.readFileSync(commentFile, "utf8"))
+  // @ts-ignore: Depends on file contents
+  return matterResult.data
+}
+
 export async function getComment(
   collection: string,
   item: string,
   author: string,
   raw: boolean = false
-): Promise<{
-  metadata: { tags: string[]; score: Number; date: string }
-  contents: string
-}> {
+): Promise<Comment> {
   const commentFile = path.join(dataDirectory, collection, item, author + ".md")
   const matterResult = matter(fs.readFileSync(commentFile, "utf8"))
   const metadata = matterResult.data
