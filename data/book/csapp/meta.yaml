@@ -1,6 +1,6 @@
 name: 深入理解计算机系统
 aliases: ["Computer Systems: A Programmer's Perspective", CSAPP]
-link:
+links:
   - source: 官网
     link: https://csapp.cs.cmu.edu/
 meta:
