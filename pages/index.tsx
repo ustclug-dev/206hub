@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next'
-import { getAuthors } from '../libs/data'
+import { getComment } from '../libs/data'
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  getAuthors()
+  getComment("anime", "k_on", "testA")
   return {
     props: {},
   }
