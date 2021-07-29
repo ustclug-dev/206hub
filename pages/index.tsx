@@ -4,6 +4,7 @@ import {
   getItemsInCollection,
   getCommentListOfItem,
 } from "../libs/data"
+import Link from "next/link"
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const collections = getCollections()
@@ -15,6 +16,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       0
     )
     collectionProps.push({
+      slug: collectionSlug,
       name: collections[collectionSlug].name,
       itemLength: items.length,
       commentsLen: commentsLen,
@@ -30,12 +32,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 function HomePage({
   collections,
 }: {
-  collections: { name: string; itemLength: number; commentsLen: number }[]
+  collections: {
+    slug: string
+    name: string
+    itemLength: number
+    commentsLen: number
+  }[]
 }) {
   const collectionItems = collections.map((collection) => (
     <li key={collection.name}>
-      {collection.name}, {collection.itemLength} 个条目, 合计{" "}
-      {collection.commentsLen} 条评论
+      <Link href={`/${collection.slug}`}>
+        <a>{collection.name}</a>
+      </Link>
+      , {collection.itemLength} 个条目, 合计 {collection.commentsLen} 条评论
     </li>
   ))
   return (

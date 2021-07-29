@@ -9,6 +9,8 @@ import {
 import { CommentMetadata } from "../libs/type"
 import { getAverageScoreByMetadata, getAllTagsByMetadata } from "../libs/utils"
 
+import Link from "next/link"
+
 type CollectionParams = {
   params: {
     collection: string
@@ -19,13 +21,13 @@ export const getStaticProps: GetStaticProps = async ({
   params,
 }: CollectionParams) => {
   const collections = getCollections()
-  console.log(params.collection)
   const collectionSlug = params.collection
   const collectionName = collections[collectionSlug].name
 
   const itemsMap = getItemsInCollection(collectionSlug)
   const items = Object.keys(itemsMap).map((key) => {
     return {
+      slug: key,
       name: itemsMap[key].name,
       comment: getCommentListOfItem(collectionSlug, key).map((author) =>
         getCommentMetadata(collectionSlug, key, author)
@@ -34,6 +36,7 @@ export const getStaticProps: GetStaticProps = async ({
   })
   return {
     props: {
+      collectionSlug,
       collectionName,
       items,
     },
@@ -55,18 +58,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Post({
+  collectionSlug,
   collectionName,
   items,
 }: {
+  collectionSlug: string
   collectionName: string
   items: {
+    slug: string
     name: string
     comment: CommentMetadata[]
   }[]
 }) {
   const itemElements = items.map((item) => (
     <li key={item.name}>
-      {item.name}, {item.comment.length} 条点评, 平均分{" "}
+      <Link href={`/${collectionSlug}/${item.slug}`}>
+        <a>{item.name}</a>
+      </Link>
+      , {item.comment.length} 条点评, 平均分{" "}
       {getAverageScoreByMetadata(item.comment)}, 标签{" "}
       <ul>
         {getAllTagsByMetadata(item.comment).map((tag) => (
