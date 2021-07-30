@@ -17,3 +17,9 @@ export const union = (arr, ...args) => [...new Set(arr.concat(...args))]
 export function getAllTagsByMetadata(metadatas: CommentMetadata[]): string[] {
   return union(metadatas.map(metadata => metadata.tags).flat())
 }
+
+export function slugify(str: string): string {
+  return str.trim().toLowerCase().replace(/\s+/g, '-').replace('/', '-')
+}
+
+export type ValueOf<T> = T[keyof T];

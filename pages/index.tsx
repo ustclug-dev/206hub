@@ -7,7 +7,10 @@ import {
 import Link from "next/link"
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const collections = getCollections()
+  const collections = getCollections().map(collection => ({
+    slug: collection.slug,
+    name: collection.name,
+  }))
   let collectionProps = []
   for (let collectionSlug in collections) {
     const items = Object.keys(getItemsInCollection(collectionSlug))

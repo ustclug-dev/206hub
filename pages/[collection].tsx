@@ -24,11 +24,11 @@ export const getStaticProps: GetStaticProps = async ({
   const collectionSlug = params.collection
   const collectionName = collections[collectionSlug].name
 
-  const itemsMap = getItemsInCollection(collectionSlug)
-  const items = Object.keys(itemsMap).map((key) => {
+  const itemsRecord = getItemsInCollection(collectionSlug)
+  const items = Object.keys(itemsRecord).map((key) => {
     return {
       slug: key,
-      name: itemsMap[key].name,
+      name: itemsRecord[key].name,
       comment: getCommentListOfItem(collectionSlug, key).map((author) =>
         getCommentMetadata(collectionSlug, key, author)
       ),

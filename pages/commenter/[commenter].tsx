@@ -1,6 +1,10 @@
 import { GetStaticProps, GetStaticPaths } from "next"
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {}
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  return {
+    props: {}
+  }
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
