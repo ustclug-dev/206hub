@@ -47,8 +47,8 @@ export type Comment = {
 }
 
 export type ItemPath = {
-  collection: string
-  item: string
+  collection: Collection
+  item: Item
 }
 
 export type TagList = {

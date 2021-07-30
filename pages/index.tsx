@@ -4,6 +4,7 @@ import {
   getItemSlugs,
   getItemPreview,
 } from "../libs/data"
+import generateRSS from "../libs/rss"
 import Link from "next/link"
 
 type collectionsIndex = {
@@ -14,6 +15,7 @@ type collectionsIndex = {
 }[]
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  await generateRSS()
   const collections = getCollections().map((collection) => ({
     slug: collection.slug,
     name: collection.name,

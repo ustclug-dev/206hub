@@ -94,7 +94,7 @@ export default function Item({
       <h4>平均得分：{averageScore}</h4>
       {comments.map((comment) => (
         <div key={comment.metadata.author.name}>
-          <h3>{comment.metadata.author.name} 的评论</h3>{" "}
+          <h3 id={comment.metadata.author.slug}><Link href={`/commenter/${comment.metadata.author.slug}`}><a>{comment.metadata.author.name}</a></Link> 的评论</h3>{" "}
           {/* TODO: Add avatar */}
           <span>时间: {comment.metadata.date}</span>
           <br />

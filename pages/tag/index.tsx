@@ -12,7 +12,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 function TagPage({ tags }: { tags: ReturnType<typeof getTags> }) {
-  console.log(tags)
   const tagElements = tags.map((tag) => (
     <li key={tag.tagSlug}>
       <Link href={`/tag/${tag.tagSlug}`}>

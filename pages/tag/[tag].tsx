@@ -12,7 +12,6 @@ type TagParams = {
 
 export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
   const tagInfo = getTags().filter(tag => tag.tagSlug === params.tag)[0]
-  console.log(tagInfo)
   return {
     props: {
       tagInfo,

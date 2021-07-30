@@ -43,7 +43,6 @@ export default function CommenterPage({
   authorData: Awaited<ReturnType<typeof getAuthorData>>
   authorInstance: Author
 }) {
-  console.log(authorData)
   return (
     <>
       <h1>评论者: {authorInstance.name}</h1>
@@ -57,7 +56,7 @@ export default function CommenterPage({
         下载用户数据 (JSON)
       </a>
       {authorData.map((comment) => {
-        const url = `/${comment.info.collection.slug}/${comment.info.item.slug}`
+        const url = `/${comment.info.collection.slug}/${comment.info.item.slug}#${authorInstance.slug}`
         return (
           <li key={url}>
             [{comment.info.collection.name}]{" "}

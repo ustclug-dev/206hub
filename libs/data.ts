@@ -200,8 +200,11 @@ export function getTags(): TagList {
         return {
           tags,
           item: {
-            collection: collection.slug,
-            item: itemSlug,
+            collection: collection,
+            item: {
+              slug: itemSlug,
+              name: getItemMeta(collection.slug, itemSlug).name,
+            },
           },
         }
       })
@@ -223,7 +226,7 @@ export function getTags(): TagList {
       }
       if (!dedupSetMap.get(tag.tagSlug).has(item)) {
         result[tag.tagSlug].items.push(
-          getItemPreview(item.collection, item.item)
+          getItemPreview(item.collection.slug, item.item.slug)
         )
         dedupSetMap.get(tag.tagSlug).add(item)
       }
@@ -234,10 +237,7 @@ export function getTags(): TagList {
 
 export async function getAuthorData(author: string): Promise<
   {
-    info: {
-      collection: Collection,
-      item: Item
-    }
+    info: ItemPath
     comment: Comment
   }[]
 > {
@@ -276,12 +276,62 @@ export async function getAuthorData(author: string): Promise<
           collection: getCollectionFromSlug(itemPath.collection),
           item: {
             name: getItemMeta(itemPath.collection, itemPath.item).name,
-            slug: itemPath.item
-          }
+            slug: itemPath.item,
+          },
         },
         comment,
       }
     })
   )
+  return comments
+}
+
+export async function getAllComments(): Promise<
+  {
+    comment: Comment
+    info: ItemPath
+  }[]
+> {
+  const items = getCollections()
+    .map((collection) => {
+      const itemSlugs = getItemSlugs(collection.slug)
+      return itemSlugs.map((itemSlug) => {
+        return {
+          collection: collection,
+          item: {
+            name: getItemMeta(collection.slug, itemSlug).name,
+            slug: itemSlug,
+          },
+        }
+      })
+    })
+    .flat()
+  const comments = (
+    await Promise.all(
+      items.map(async (item) => {
+        const authors = getCommentAuthorSlugs(
+          item.collection.slug,
+          item.item.slug
+        )
+        const comments = await Promise.all(
+          authors.map(async (author) => {
+            const comment = await getComment(
+              item.collection.slug,
+              item.item.slug,
+              author
+            )
+            return {
+              comment,
+              info: {
+                collection: item.collection,
+                item: item.item,
+              },
+            }
+          })
+        )
+        return comments
+      })
+    )
+  ).flat()
   return comments
 }
