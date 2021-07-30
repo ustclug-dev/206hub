@@ -3,13 +3,21 @@ export type Collection = {
   slug: string
 }
 export type Collections = Collection[]
+export type Tag = {
+  name: string,
+  slug: string
+}
+export type Item = {
+  name: string,
+  slug: string
+}
 export type ItemPreview = {
   name: string
   slug: string
   commentCnt: number
   averageScore: number
   tags: string[]
-  collectionSlug: string
+  collection: Collection
 }
 export type ItemList = ItemPreview[]
 export type ItemMeta = {

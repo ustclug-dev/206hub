@@ -4,6 +4,7 @@ import {
   getItemSlugs,
   getItemPreview,
 } from "../libs/data"
+import { slugify } from "../libs/utils"
 
 import { ItemPreview } from "../libs/type"
 
@@ -68,7 +69,7 @@ export default function Post({
       {item.averageScore}, 标签{" "}
       <ul>
         {item.tags.map((tag) => (
-          <li key={tag}>{tag}</li>
+          <li key={tag}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
         ))}
       </ul>
     </li>

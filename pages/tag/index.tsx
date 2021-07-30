@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
 import { getTags } from "../../libs/data"
-import Link from 'next/link'
+import Link from "next/link"
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const tags = getTags()
@@ -12,15 +12,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 function TagPage({ tags }: { tags: ReturnType<typeof getTags> }) {
-  let tagElements = []
-  for (let tag in tags) {
-    tagElements.push(<li key={tag}>
-      <Link href={`/tag/${tag}`}>
-        <a>{tags[tag].tagName}</a>
+  console.log(tags)
+  const tagElements = tags.map((tag) => (
+    <li key={tag.tagSlug}>
+      <Link href={`/tag/${tag.tagSlug}`}>
+        <a>{tag.tagName}</a>
       </Link>
-    </li>)
-  }
-  return <>{tagElements}</>
+    </li>
+  ))
+  return (
+    <>
+      <h1>所有标签</h1>
+      {tagElements}
+    </>
+  )
 }
 
 export default TagPage

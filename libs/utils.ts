@@ -23,3 +23,4 @@ export function slugify(str: string): string {
 }
 
 export type ValueOf<T> = T[keyof T];
+export type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T;

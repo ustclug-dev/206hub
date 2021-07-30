@@ -1,25 +1,73 @@
 import { GetStaticProps, GetStaticPaths } from "next"
+import { getAuthors, getAuthorData } from "../../libs/data"
+import { Author } from "../../libs/type"
+import { Awaited } from "../../libs/utils"
+import Link from "next/link"
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+type CommenterParams = {
+  params: {
+    commenter: string
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: CommenterParams) => {
+  const authorData = await getAuthorData(params.commenter)
+  const authorInstance = getAuthors().filter(
+    (author) => author.slug === params.commenter
+  )[0]
   return {
-    props: {}
+    props: {
+      authorData,
+      authorInstance,
+    },
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const authors = getAuthors()
+  const paths = authors.map((author) => ({
+    params: { commenter: author.slug },
+  }))
   return {
-    paths: [{
-      params: {
-        tag: "a",
-      },
-    }],
+    paths,
     fallback: false,
   }
 }
 
-export default function CommenterPage() {
+export default function CommenterPage({
+  authorData,
+  authorInstance,
+}: {
+  authorData: Awaited<ReturnType<typeof getAuthorData>>
+  authorInstance: Author
+}) {
+  console.log(authorData)
   return (
     <>
+      <h1>评论者: {authorInstance.name}</h1>
+      <a
+        type="button"
+        href={`data:text/json;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(authorData)
+        )}`}
+        download={`${authorInstance.slug}.json`}
+      >
+        下载用户数据 (JSON)
+      </a>
+      {authorData.map((comment) => {
+        const url = `/${comment.info.collection.slug}/${comment.info.item.slug}`
+        return (
+          <li key={url}>
+            [{comment.info.collection.name}]{" "}
+            <Link href={url}>
+              <a>{comment.info.item.name}</a>
+            </Link>
+            : <code>{JSON.stringify(comment.comment)}</code>
+          </li>
+        )
+      })}
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next"
 import { getTags } from "../../libs/data"
-import { ValueOf } from "../../libs/utils"
+import { TagList } from "../../libs/type"
+import { slugify } from "../../libs/utils"
 import Link from "next/link"
 
 type TagParams = {
@@ -10,7 +11,8 @@ type TagParams = {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
-  const tagInfo = getTags()[params.tag]
+  const tagInfo = getTags().filter(tag => tag.tagSlug === params.tag)[0]
+  console.log(tagInfo)
   return {
     props: {
       tagInfo,
@@ -19,10 +21,10 @@ export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tagSlugs = Object.keys(getTags())
+  const tagSlugs = getTags()
   return {
     paths: tagSlugs.map((tag) => ({
-      params: { tag },
+      params: { tag: tag.tagSlug },
     })),
     fallback: false,
   }
@@ -31,16 +33,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function TagItemPage({
   tagInfo,
 }: {
-  tagInfo: ValueOf<ReturnType<typeof getTags>>
+  tagInfo: TagList[0]
 }) {
   return (
     <>
       <h1>标签: {tagInfo.tagName}</h1>
       {tagInfo.items.map((item) => (
-        <li key={`${item.collectionSlug}/${item.itemSlug}`}>
-          <Link href={`/${item.collectionSlug}/${item.itemSlug}`}>
-            <a>{item.collectionSlug}</a>
-          </Link>
+        <li key={`${item.collection.slug}/${item.slug}`}>
+          [{item.collection.name}] {""}
+          <Link href={`/${item.collection.slug}/${item.slug}`}>
+            <a>{item.name}</a>
+          </Link>, {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签 {""}
+          <ul>
+            {item.tags.map((tag) => (
+              <li key={tag}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
+            ))}
+          </ul>
         </li>
       ))}
     </>

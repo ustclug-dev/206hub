@@ -1,4 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from "next"
+import Link from "next/link"
 import {
   getCollections,
   getItemSlugs,
@@ -8,7 +9,7 @@ import {
 } from "../libs/data"
 
 import { ItemMeta, Comment } from '../libs/type'
-import { getAverageScoreByComments } from "../libs/utils"
+import { getAverageScoreByComments, slugify } from "../libs/utils"
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -97,7 +98,9 @@ export default function Item({
           {/* TODO: Add avatar */}
           <span>时间: {comment.metadata.date}</span>
           <br />
-          <span>标签: {comment.metadata.tags}</span>
+          <span>标签: {comment.metadata.tags.map(tag => (
+            <li key={slugify(tag)}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
+          ))}</span>
           <br />
           <span>分数: {comment.metadata.score}</span>
           <br />

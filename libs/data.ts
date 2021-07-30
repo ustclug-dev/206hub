@@ -6,11 +6,11 @@ import remark from "remark"
 import html from "remark-html"
 
 import {
+  Collection,
   Collections,
   ItemPreview,
-  ItemList,
+  Item,
   ItemMeta,
-  ItemMetaList,
   Author,
   Authors,
   Comment,
@@ -18,11 +18,16 @@ import {
   ItemPath,
   TagList,
 } from "./type"
-import { getAllTagsByMetadata, union, slugify, getAverageScoreByMetadata } from "./utils"
+import {
+  getAllTagsByMetadata,
+  union,
+  slugify,
+  getAverageScoreByMetadata,
+} from "./utils"
 
 const dataDirectory = path.join(process.cwd(), "data")
 
-export function getCollections(): Collections {
+function getRawCollections() {
   const collectionsYamlFile = path.join(dataDirectory, "collections.yaml")
   const collections: Record<
     string,
@@ -30,10 +35,23 @@ export function getCollections(): Collections {
       name: string
     }
   > = yaml.load(fs.readFileSync(collectionsYamlFile, "utf8"))
+  return collections
+}
+
+export function getCollections(): Collections {
+  const collections = getRawCollections()
   return Object.keys(collections).map((slug) => ({
     name: collections[slug].name,
     slug,
   }))
+}
+
+export function getCollectionFromSlug(collectionSlug: string) {
+  const collection = getRawCollections()[collectionSlug]
+  return {
+    name: collection.name,
+    slug: collectionSlug,
+  }
 }
 
 const getCollectionDirectory = (collection: string) =>
@@ -64,7 +82,9 @@ export function getItemMeta(collection: string, item: string): ItemMeta {
 export function getItemPreview(collection: string, item: string): ItemPreview {
   const meta = getItemMeta(collection, item)
   const commentAuthorSlugs = getCommentAuthorSlugs(collection, item)
-  const commentMetadatas = commentAuthorSlugs.map(authorSlug => getCommentMetadata(collection, item, authorSlug))
+  const commentMetadatas = commentAuthorSlugs.map((authorSlug) =>
+    getCommentMetadata(collection, item, authorSlug)
+  )
   const tags = getAllTagsByMetadata(commentMetadatas)
   const averageScore = getAverageScoreByMetadata(commentMetadatas)
   return {
@@ -73,7 +93,7 @@ export function getItemPreview(collection: string, item: string): ItemPreview {
     commentCnt: commentMetadatas.length,
     averageScore: averageScore,
     tags: tags,
-    collectionSlug: collection
+    collection: getCollectionFromSlug(collection),
   }
 }
 
@@ -169,43 +189,99 @@ export function getItemTags(collection: string, item: string) {
 
 export function getTags(): TagList {
   // iterate all comments and get their tags
-  const items = getCollections().map((collection) => {
-    const itemSlugs = getItemSlugs(collection.slug)
-    const itemTags = itemSlugs.map(itemSlug => {
-      const tags = getItemTags(collection.slug, itemSlug).map(tagName => ({
-        tagName,
-        tagSlug: slugify(tagName)
-      }))
-      return {
-        tags,
-        item: {
-          collection: collection.slug,
-          item: itemSlug
+  const items = getCollections()
+    .map((collection) => {
+      const itemSlugs = getItemSlugs(collection.slug)
+      const itemTags = itemSlugs.map((itemSlug) => {
+        const tags = getItemTags(collection.slug, itemSlug).map((tagName) => ({
+          tagName,
+          tagSlug: slugify(tagName),
+        }))
+        return {
+          tags,
+          item: {
+            collection: collection.slug,
+            item: itemSlug,
+          },
         }
-      }
+      })
+      return itemTags
     })
-    return itemTags
-  }).flat()
-  let result: TagList = []
+    .flat()
+  let result = {}
   let dedupSetMap: Map<string, Set<ItemPath>> = new Map()
   for (let i of items) {
     const item = i.item
     for (let tag of i.tags) {
-      if (!dedupSetMap.has[tag.tagSlug]) {
+      if (!dedupSetMap.has(tag.tagSlug)) {
         result[tag.tagSlug] = {
           tagName: tag.tagName,
           tagSlug: tag.tagSlug,
-          items: []
+          items: [],
         }
         dedupSetMap.set(tag.tagSlug, new Set())
       }
-      if (!dedupSetMap[tag.tagSlug].has(item)) {
+      if (!dedupSetMap.get(tag.tagSlug).has(item)) {
         result[tag.tagSlug].items.push(
           getItemPreview(item.collection, item.item)
         )
-        dedupSetMap[tag.tagSlug].set(item)
+        dedupSetMap.get(tag.tagSlug).add(item)
       }
     }
   }
-  return result
+  return Object.values(result)
+}
+
+export async function getAuthorData(author: string): Promise<
+  {
+    info: {
+      collection: Collection,
+      item: Item
+    }
+    comment: Comment
+  }[]
+> {
+  const collections = getCollections()
+  const items = collections
+    .map((collection) => {
+      const itemSlugs = getItemSlugs(collection.slug)
+      return itemSlugs.map((itemSlug) => ({
+        collection: collection.slug,
+        item: itemSlug,
+      }))
+    })
+    .flat()
+  const itemWithAuthorCommented = items
+    .map((itemPath) => {
+      const authors = getCommentAuthorSlugs(
+        itemPath.collection,
+        itemPath.item
+      ).filter((_) => author === _)
+      if (authors.length === 0) {
+        return
+      } else {
+        return itemPath
+      }
+    })
+    .filter((x) => x !== undefined)
+  const comments = Promise.all(
+    itemWithAuthorCommented.map(async (itemPath) => {
+      const comment = await getComment(
+        itemPath.collection,
+        itemPath.item,
+        author
+      )
+      return {
+        info: {
+          collection: getCollectionFromSlug(itemPath.collection),
+          item: {
+            name: getItemMeta(itemPath.collection, itemPath.item).name,
+            slug: itemPath.item
+          }
+        },
+        comment,
+      }
+    })
+  )
+  return comments
 }
