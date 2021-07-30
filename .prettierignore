@@ -1,3 +1,6 @@
 # Next.js files
 .next/
 out/
+
+# GitHub Actions
+.github/workflows/
