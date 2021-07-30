@@ -39,3 +39,9 @@ jspm_packages
 
 # macOS files
 .DS_Store
+
+# SSG outputs
+/out/
+
+# RSS file (It will be automatically generated)
+/public/atom.xml
