@@ -23,6 +23,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: Install deps in CI
+      run: npm ci
     - name: Lint & Prettier
       run: npm run lint
     - name: Test build & SSG export
