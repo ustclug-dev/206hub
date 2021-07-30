@@ -1,44 +1,86 @@
 import { GetStaticProps } from "next"
 import {
   getCollections,
-  getItemsInCollection,
-  getAuthors,
-  getCommentListOfItem,
+  getItemSlugs,
+  getCommentAuthorSlugs,
   getComment,
+  getItemMeta,
 } from "../libs/data"
+import { CommentMetadata, Author } from "../libs/type"
 import { useState } from "react"
+import Link from "next/link"
+
+type SearchData = {
+  collection: string
+  url: string
+  name: string
+  aliases: string[]
+  links: { source: string; link: string }[]
+  comments: {
+    content: string
+    metadata: MetaDataForSearch
+  }[]
+}[]
+
+type MetaDataForSearch = {
+  tags: string[]
+  author: string
+}
+
+function cleanMetadata(metadata: CommentMetadata): MetaDataForSearch {
+  return {
+    tags: metadata.tags,
+    author: metadata.author.name
+  }
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  let results = []
   const collections = getCollections()
-  const authors = getAuthors()
-  for (let collectionSlug in collections) {
-    const items = getItemsInCollection(collectionSlug)
-    for (let itemSlug in items) {
-      const commentAuthors = getCommentListOfItem(collectionSlug, itemSlug)
-      const comments = []
-      for (let author of commentAuthors) {
-        const comment = await getComment(collectionSlug, itemSlug, author, true)
-        comments.push({
-          commenter: authors[author].name,
-          content: comment.contents,
-          date: comment.metadata.date, // TODO: how to handle date correctly?
-          score: comment.metadata.score,
-          tags: comment.metadata.tags,
+  const fullData: SearchData = (await Promise.all(
+    collections.map(async (collection) => {
+      const itemSlugs = getItemSlugs(collection.slug)
+      const items = (await Promise.all(
+        itemSlugs.map(async (itemSlug) => {
+          const authorSlugs = getCommentAuthorSlugs(collection.slug, itemSlug)
+          const itemMeta = getItemMeta(collection.slug, itemSlug)
+          const comments = await Promise.all(
+            authorSlugs.map(async (authorSlug) => {
+              let comment: any = await getComment(
+                collection.slug,
+                itemSlug,
+                authorSlug,
+                true
+              )
+              // remove unnecessary keys
+              comment.metadata = cleanMetadata(comment.metadata)
+              return comment
+            })
+          )
+          const itemInfo = {
+            itemSlug,
+            comments,
+            name: itemMeta.name,
+            aliases: itemMeta.aliases,
+            links: itemMeta.links,
+          }
+          if (itemMeta.meta) {
+            (itemInfo as any).meta = itemMeta.meta
+          }
+          return itemInfo
         })
-      }
-      results.push({
-        collection: collections[collectionSlug].name,
-        url: `/${collectionSlug}/${itemSlug}`, // TODO: add hashtag
-        name: items[itemSlug].name,
-        aliases: items[itemSlug].aliases,
-        links: items[itemSlug].links,
-        comments: comments,
-      })
-    }
-  }
+      )).flat()
+      return items.map(item => ({
+        name: item.name,
+        aliases: item.aliases,
+        links: item.links,
+        comments: item.comments,
+        collection: collection.name,
+        url: `/${collection.slug}/${item.itemSlug}`
+      }))
+    })
+  )).flat()
   return {
-    props: { fullData: results },
+    props: { fullData },
   }
 }
 
@@ -64,27 +106,10 @@ function search(keyword: string, obj: any) {
   }
 }
 
-function SearchPage({
-  fullData,
-}: {
-  fullData: {
-    collection: string
-    url: string
-    name: string
-    aliases: string[]
-    links: string[]
-    comments: {
-      commenter: string
-      content: string
-      date: string
-      score: number
-      tags: string[]
-    }[]
-  }[]
-}) {
-  const [keywords, setKeywords] = useState([])
+function SearchPage({ fullData }: { fullData: SearchData }) {
+  const [keywords, setKeywords] = useState([""])
   let results = []
-  if (keywords) {
+  if (keywords[0] !== "") {
     for (let i = 0; i < fullData.length; i++) {
       let score = 0
       for (let j = 0; j < keywords.length; j++) {
@@ -101,7 +126,7 @@ function SearchPage({
   }
   const resultItems = results.map((item) => (
     <li key={item.data.url}>
-      [{item.data.collection}] {item.data.name}
+      [{item.data.collection}] <Link href={item.data.url}><a>{item.data.name}</a></Link>
     </li>
   ))
   return (
@@ -110,7 +135,7 @@ function SearchPage({
       <input
         type="text"
         placeholder="输入需要搜索的关键词……"
-        onChange={(e) => setKeywords(e.target.value.split(/[ ,]+/))}
+        onChange={(e) => setKeywords(e.target.value.trim().split(/[ ,]+/))}
       ></input>
       <h3>结果</h3>
       <div>{resultItems}</div>

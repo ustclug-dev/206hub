@@ -1,14 +1,14 @@
 import { GetStaticProps, GetStaticPaths } from "next"
 import {
   getCollections,
-  getItemsInCollection,
-  getCommentListOfItem,
-  getAuthors,
+  getItemSlugs,
+  getCommentAuthorSlugs,
+  getItemMeta,
   getComment,
 } from "../libs/data"
 
-import { CommentWithAuthor, Item as ItemType } from "../libs/type"
-import { getAverageScoreByComments } from '../libs/utils'
+import { ItemMeta, Comment } from '../libs/type'
+import { getAverageScoreByComments } from "../libs/utils"
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -19,80 +19,69 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const path = params.item
   const [collection, item] = path
-  const itemData: ItemType = getItemsInCollection(collection)[item]
-  const commentAuthors = getCommentListOfItem(collection, item)
-  const authors = getAuthors()
+  const itemMeta = getItemMeta(collection, item)
+  const commentAuthors = getCommentAuthorSlugs(collection, item)
   const comments = await Promise.all(
     commentAuthors.map(async (author) => {
-      let comment = (await getComment(
-        collection,
-        item,
-        author
-      )) as CommentWithAuthor
-      comment.metadata.author = authors[author]
-      return comment
+      return await getComment(collection, item, author)
     })
   )
   return {
     props: {
-      item: itemData,
+      itemMeta,
       comments,
+      averageScore: getAverageScoreByComments(comments)
     },
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const collections = Object.keys(getCollections())
-  const itemsList = collections.map((collection) => {
-    return {
-      collection,
-      items: Object.keys(getItemsInCollection(collection)),
-    }
-  })
-  let paths = []
-  for (let collection of itemsList) {
-    for (let item of collection.items) {
-      paths.push({
-        params: { item: [collection.collection, item] },
-      })
-    }
-  }
+  const collections = getCollections().map((collection) => collection.slug)
+  const paths = collections
+    .map((collection) => {
+      const items = getItemSlugs(collection)
+      return items.map((item) => ({
+        params: { item: [collection, item] },
+      }))
+    })
+    .flat()
   return {
     paths,
     fallback: false,
   }
 }
 
-
 export default function Item({
-  item,
+  itemMeta,
   comments,
+  averageScore
 }: {
-  item: ItemType
-  comments: CommentWithAuthor[]
+  itemMeta: ItemMeta
+  comments: Comment[]
+  averageScore: number
 }) {
   return (
     <>
-      <h1>{item.name}</h1>
+      <h1>{itemMeta.name}</h1>
       <h3>其他名称</h3>
       <ul>
-        {item.aliases.map((alias) => (
+        {itemMeta.aliases.map((alias) => (
           <li key={alias}>{alias}</li>
         ))}
       </ul>
       <h3>辅助链接</h3>
       <ul>
-        {item.links.map((link) => (
+        {itemMeta.links.map((link) => (
           <li key={link.source}>
             <a href={link.link}>{link.source}</a>
           </li>
         ))}
       </ul>
-      {item.meta && (
+      {itemMeta.meta && (
         <>
           <h3>其他元信息</h3>
           <ul>
-            {item.meta.map((meta) => (
+            {itemMeta.meta.map((meta) => (
               <li key={meta.name}>
                 {meta.name}: {meta.value}
               </li>
@@ -101,7 +90,7 @@ export default function Item({
         </>
       )}
       <hr />
-      <h4>平均得分：{getAverageScoreByComments(comments)}</h4>
+      <h4>平均得分：{averageScore}</h4>
       {comments.map((comment) => (
         <div key={comment.metadata.author.name}>
           <h3>{comment.metadata.author.name} 的评论</h3>{" "}

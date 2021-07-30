@@ -16,7 +16,7 @@ import {
   Comment,
   CommentMetadata,
   ItemPath,
-  tagList,
+  TagList,
 } from "./type"
 import { getAllTagsByMetadata, union, slugify, getAverageScoreByMetadata } from "./utils"
 
@@ -59,18 +59,6 @@ export function getItemMeta(collection: string, item: string): ItemMeta {
   )
   const itemMeta: ItemMeta = yaml.load(fs.readFileSync(yamlFile, "utf8"))
   return itemMeta
-}
-
-export function getItemMetaInCollection(collection: string): ItemMetaList {
-  const itemSlugs = getItemSlugs(collection)
-  const items = itemSlugs.map((itemSlug) => {
-    const itemMeta = getItemMeta(collection, itemSlug)
-    return {
-      slug: itemSlug,
-      ...itemMeta,
-    }
-  })
-  return items
 }
 
 export function getItemPreview(collection: string, item: string): ItemPreview {
@@ -179,7 +167,7 @@ export function getItemTags(collection: string, item: string) {
   )
 }
 
-export function getTags(): tagList {
+export function getTags(): TagList {
   // iterate all comments and get their tags
   const items = getCollections().map((collection) => {
     const itemSlugs = getItemSlugs(collection.slug)
@@ -198,7 +186,7 @@ export function getTags(): tagList {
     })
     return itemTags
   }).flat()
-  let result: tagList = []
+  let result: TagList = []
   let dedupSetMap: Map<string, Set<ItemPath>> = new Map()
   for (let i of items) {
     const item = i.item

@@ -1,13 +1,11 @@
 import { GetStaticProps, GetStaticPaths } from "next"
 import {
   getCollections,
-  getItemsInCollection,
-  getCommentListOfItem,
-  getCommentMetadata,
+  getItemSlugs,
+  getItemPreview,
 } from "../libs/data"
 
-import { CommentMetadata } from "../libs/type"
-import { getAverageScoreByMetadata, getAllTagsByMetadata } from "../libs/utils"
+import { ItemPreview } from "../libs/type"
 
 import Link from "next/link"
 
@@ -22,17 +20,12 @@ export const getStaticProps: GetStaticProps = async ({
 }: CollectionParams) => {
   const collections = getCollections()
   const collectionSlug = params.collection
-  const collectionName = collections[collectionSlug].name
+  const collectionName = collections.filter(x => x.slug === collectionSlug)[0].name  // ensure that collection slug is unique!
 
-  const itemsRecord = getItemsInCollection(collectionSlug)
-  const items = Object.keys(itemsRecord).map((key) => {
-    return {
-      slug: key,
-      name: itemsRecord[key].name,
-      comment: getCommentListOfItem(collectionSlug, key).map((author) =>
-        getCommentMetadata(collectionSlug, key, author)
-      ),
-    }
+  const itemSlugs = getItemSlugs(collectionSlug)
+  const items = itemSlugs.map((itemSlug) => {
+    const itemPreview = getItemPreview(collectionSlug, itemSlug)
+    return itemPreview
   })
   return {
     props: {
@@ -44,7 +37,7 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const collections = Object.keys(getCollections())
+  const collections = getCollections().map(collection => collection.slug)
   return {
     paths: collections.map((key) => {
       return {
@@ -64,21 +57,17 @@ export default function Post({
 }: {
   collectionSlug: string
   collectionName: string
-  items: {
-    slug: string
-    name: string
-    comment: CommentMetadata[]
-  }[]
+  items: ItemPreview[]
 }) {
   const itemElements = items.map((item) => (
     <li key={item.name}>
       <Link href={`/${collectionSlug}/${item.slug}`}>
         <a>{item.name}</a>
       </Link>
-      , {item.comment.length} 条点评, 平均分{" "}
-      {getAverageScoreByMetadata(item.comment)}, 标签{" "}
+      , {item.commentCnt} 条点评, 平均分{" "}
+      {item.averageScore}, 标签{" "}
       <ul>
-        {getAllTagsByMetadata(item.comment).map((tag) => (
+        {item.tags.map((tag) => (
           <li key={tag}>{tag}</li>
         ))}
       </ul>

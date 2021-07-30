@@ -43,7 +43,7 @@ export type ItemPath = {
   item: string
 }
 
-export type tagList = {
+export type TagList = {
   tagName: string,
   tagSlug: string,
   items: ItemList
