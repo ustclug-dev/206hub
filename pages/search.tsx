@@ -30,55 +30,62 @@ type MetaDataForSearch = {
 function cleanMetadata(metadata: CommentMetadata): MetaDataForSearch {
   return {
     tags: metadata.tags,
-    author: metadata.author.name
+    author: metadata.author.name,
   }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const collections = getCollections()
-  const fullData: SearchData = (await Promise.all(
-    collections.map(async (collection) => {
-      const itemSlugs = getItemSlugs(collection.slug)
-      const items = (await Promise.all(
-        itemSlugs.map(async (itemSlug) => {
-          const authorSlugs = getCommentAuthorSlugs(collection.slug, itemSlug)
-          const itemMeta = getItemMeta(collection.slug, itemSlug)
-          const comments = await Promise.all(
-            authorSlugs.map(async (authorSlug) => {
-              let comment: any = await getComment(
+  const fullData: SearchData = (
+    await Promise.all(
+      collections.map(async (collection) => {
+        const itemSlugs = getItemSlugs(collection.slug)
+        const items = (
+          await Promise.all(
+            itemSlugs.map(async (itemSlug) => {
+              const authorSlugs = getCommentAuthorSlugs(
                 collection.slug,
-                itemSlug,
-                authorSlug,
-                true
+                itemSlug
               )
-              // remove unnecessary keys
-              comment.metadata = cleanMetadata(comment.metadata)
-              return comment
+              const itemMeta = getItemMeta(collection.slug, itemSlug)
+              const comments = await Promise.all(
+                authorSlugs.map(async (authorSlug) => {
+                  let comment: any = await getComment(
+                    collection.slug,
+                    itemSlug,
+                    authorSlug,
+                    true
+                  )
+                  // remove unnecessary keys
+                  comment.metadata = cleanMetadata(comment.metadata)
+                  return comment
+                })
+              )
+              const itemInfo = {
+                itemSlug,
+                comments,
+                name: itemMeta.name,
+                aliases: itemMeta.aliases,
+                links: itemMeta.links,
+              }
+              if (itemMeta.meta) {
+                ;(itemInfo as any).meta = itemMeta.meta
+              }
+              return itemInfo
             })
           )
-          const itemInfo = {
-            itemSlug,
-            comments,
-            name: itemMeta.name,
-            aliases: itemMeta.aliases,
-            links: itemMeta.links,
-          }
-          if (itemMeta.meta) {
-            (itemInfo as any).meta = itemMeta.meta
-          }
-          return itemInfo
-        })
-      )).flat()
-      return items.map(item => ({
-        name: item.name,
-        aliases: item.aliases,
-        links: item.links,
-        comments: item.comments,
-        collection: collection.name,
-        url: `/${collection.slug}/${item.itemSlug}`
-      }))
-    })
-  )).flat()
+        ).flat()
+        return items.map((item) => ({
+          name: item.name,
+          aliases: item.aliases,
+          links: item.links,
+          comments: item.comments,
+          collection: collection.name,
+          url: `/${collection.slug}/${item.itemSlug}`,
+        }))
+      })
+    )
+  ).flat()
   return {
     props: { fullData },
   }
@@ -126,7 +133,10 @@ function SearchPage({ fullData }: { fullData: SearchData }) {
   }
   const resultItems = results.map((item) => (
     <li key={item.data.url}>
-      [{item.data.collection}] <Link href={item.data.url}><a>{item.data.name}</a></Link>
+      [{item.data.collection}]{" "}
+      <Link href={item.data.url}>
+        <a>{item.data.name}</a>
+      </Link>
     </li>
   ))
   return (

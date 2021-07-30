@@ -1,9 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from "next"
-import {
-  getCollections,
-  getItemSlugs,
-  getItemPreview,
-} from "../libs/data"
+import { getCollections, getItemSlugs, getItemPreview } from "../libs/data"
 import { slugify } from "../libs/utils"
 
 import { ItemPreview } from "../libs/type"
@@ -21,7 +17,8 @@ export const getStaticProps: GetStaticProps = async ({
 }: CollectionParams) => {
   const collections = getCollections()
   const collectionSlug = params.collection
-  const collectionName = collections.filter(x => x.slug === collectionSlug)[0].name  // ensure that collection slug is unique!
+  const collectionName = collections.filter((x) => x.slug === collectionSlug)[0]
+    .name // ensure that collection slug is unique!
 
   const itemSlugs = getItemSlugs(collectionSlug)
   const items = itemSlugs.map((itemSlug) => {
@@ -38,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const collections = getCollections().map(collection => collection.slug)
+  const collections = getCollections().map((collection) => collection.slug)
   return {
     paths: collections.map((key) => {
       return {
@@ -65,11 +62,12 @@ export default function Post({
       <Link href={`/${collectionSlug}/${item.slug}`}>
         <a>{item.name}</a>
       </Link>
-      , {item.commentCnt} 条点评, 平均分{" "}
-      {item.averageScore}, 标签{" "}
+      , {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签{" "}
       <ul>
         {item.tags.map((tag) => (
-          <li key={tag}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
+          <li key={tag}>
+            <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
+          </li>
         ))}
       </ul>
     </li>

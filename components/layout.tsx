@@ -1,3 +1,1 @@
-export default function Layout() {
-   
-}
+export default function Layout() {}

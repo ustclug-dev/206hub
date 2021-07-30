@@ -1,9 +1,5 @@
 import { GetStaticProps } from "next"
-import {
-  getCollections,
-  getItemSlugs,
-  getItemPreview,
-} from "../libs/data"
+import { getCollections, getItemSlugs, getItemPreview } from "../libs/data"
 import generateRSS from "../libs/rss"
 import Link from "next/link"
 
@@ -20,16 +16,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
     slug: collection.slug,
     name: collection.name,
   }))
-  const collectionProps: collectionsIndex = collections.map(collection => {
+  const collectionProps: collectionsIndex = collections.map((collection) => {
     const itemSlugs = getItemSlugs(collection.slug)
-    const commentCnt = itemSlugs.map(itemSlug => getItemPreview(collection.slug, itemSlug).commentCnt).reduce((sum, a) => sum += a, 0)
+    const commentCnt = itemSlugs
+      .map((itemSlug) => getItemPreview(collection.slug, itemSlug).commentCnt)
+      .reduce((sum, a) => (sum += a), 0)
     return {
       ...collection,
       itemCnt: itemSlugs.length,
-      commentCnt
+      commentCnt,
     }
   })
-  
+
   return {
     props: {
       collections: collectionProps,
@@ -37,11 +35,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 }
 
-function HomePage({
-  collections,
-}: {
-  collections: collectionsIndex
-}) {
+function HomePage({ collections }: { collections: collectionsIndex }) {
   const collectionItems = collections.map((collection) => (
     <li key={collection.name}>
       <Link href={`/${collection.slug}`}>

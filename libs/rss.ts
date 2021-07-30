@@ -31,7 +31,7 @@ export const generateRSS = async () => {
           link: `/commenter/${comment.comment.metadata.author.slug}`,
         },
       ],
-      content: comment.comment.contents
+      content: comment.comment.contents,
     })
   })
 

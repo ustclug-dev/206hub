@@ -8,7 +8,7 @@ import {
   getComment,
 } from "../libs/data"
 
-import { ItemMeta, Comment } from '../libs/type'
+import { ItemMeta, Comment } from "../libs/type"
 import { getAverageScoreByComments, slugify } from "../libs/utils"
 
 export const getStaticProps: GetStaticProps = async ({
@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       itemMeta,
       comments,
-      averageScore: getAverageScoreByComments(comments)
+      averageScore: getAverageScoreByComments(comments),
     },
   }
 }
@@ -55,7 +55,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default function Item({
   itemMeta,
   comments,
-  averageScore
+  averageScore,
 }: {
   itemMeta: ItemMeta
   comments: Comment[]
@@ -94,13 +94,23 @@ export default function Item({
       <h4>平均得分：{averageScore}</h4>
       {comments.map((comment) => (
         <div key={comment.metadata.author.name}>
-          <h3 id={comment.metadata.author.slug}><Link href={`/commenter/${comment.metadata.author.slug}`}><a>{comment.metadata.author.name}</a></Link> 的评论</h3>{" "}
+          <h3 id={comment.metadata.author.slug}>
+            <Link href={`/commenter/${comment.metadata.author.slug}`}>
+              <a>{comment.metadata.author.name}</a>
+            </Link>{" "}
+            的评论
+          </h3>{" "}
           {/* TODO: Add avatar */}
           <span>时间: {comment.metadata.date}</span>
           <br />
-          <span>标签: {comment.metadata.tags.map(tag => (
-            <li key={slugify(tag)}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
-          ))}</span>
+          <span>
+            标签:{" "}
+            {comment.metadata.tags.map((tag) => (
+              <li key={slugify(tag)}>
+                <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
+              </li>
+            ))}
+          </span>
           <br />
           <span>分数: {comment.metadata.score}</span>
           <br />

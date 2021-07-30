@@ -11,7 +11,7 @@ type TagParams = {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
-  const tagInfo = getTags().filter(tag => tag.tagSlug === params.tag)[0]
+  const tagInfo = getTags().filter((tag) => tag.tagSlug === params.tag)[0]
   return {
     props: {
       tagInfo,
@@ -29,11 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default function TagItemPage({
-  tagInfo,
-}: {
-  tagInfo: TagList[0]
-}) {
+export default function TagItemPage({ tagInfo }: { tagInfo: TagList[0] }) {
   return (
     <>
       <h1>标签: {tagInfo.tagName}</h1>
@@ -42,10 +38,13 @@ export default function TagItemPage({
           [{item.collection.name}] {""}
           <Link href={`/${item.collection.slug}/${item.slug}`}>
             <a>{item.name}</a>
-          </Link>, {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签 {""}
+          </Link>
+          , {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签 {""}
           <ul>
             {item.tags.map((tag) => (
-              <li key={tag}><Link href={`/tag/${slugify(tag)}`}>{tag}</Link></li>
+              <li key={tag}>
+                <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
+              </li>
             ))}
           </ul>
         </li>

@@ -4,11 +4,11 @@ export type Collection = {
 }
 export type Collections = Collection[]
 export type Tag = {
-  name: string,
+  name: string
   slug: string
 }
 export type Item = {
-  name: string,
+  name: string
   slug: string
 }
 export type ItemPreview = {
@@ -52,7 +52,7 @@ export type ItemPath = {
 }
 
 export type TagList = {
-  tagName: string,
-  tagSlug: string,
+  tagName: string
+  tagSlug: string
   items: ItemList
 }[]
