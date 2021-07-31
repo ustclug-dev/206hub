@@ -71,7 +71,7 @@ export default function Header({ collections }) {
             ))}
           </NavDropdown>
           <Nav.Item>
-            <Nav.Link href="/atom.xml">
+            <Nav.Link href={new URL("/atom.xml", site.url).href}>
               <FontAwesomeIcon icon={faRss} fixedWidth /> RSS
             </Nav.Link>
           </Nav.Item>
