@@ -13,18 +13,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import Nav from "react-bootstrap/Nav"
 import NavDropdown from "react-bootstrap/NavDropdown"
-import { useRouter } from "next/router";
+import { useRouter } from "next/router"
 
 export default function Header({ collections }) {
   const router = useRouter()
-  const activeKey = router.pathname.startsWith("/tag/") ? "/tag" : router.pathname
+  const activeKey = router.pathname.startsWith("/tag/")
+    ? "/tag"
+    : router.pathname
 
   return (
     <Navbar bg="light" expand="md" className="shadow-sm">
       <Link href="/" passHref>
         <Navbar.Brand>
-          <FontAwesomeIcon icon={faBug} fixedWidth size="lg" />
-          {site.title}
+          <FontAwesomeIcon icon={faBug} fixedWidth size="lg" /> {site.title}
         </Navbar.Brand>
       </Link>
       <Navbar.Toggle />
@@ -33,24 +34,21 @@ export default function Header({ collections }) {
           <Nav.Item>
             <Link href="/" passHref>
               <Nav.Link>
-                <FontAwesomeIcon icon={faHome} fixedWidth />
-                主页
+                <FontAwesomeIcon icon={faHome} fixedWidth /> 主页
               </Nav.Link>
             </Link>
           </Nav.Item>
           <Nav.Item>
             <Link href="/tag/" passHref>
               <Nav.Link>
-                <FontAwesomeIcon icon={faTags} fixedWidth />
-                标签
+                <FontAwesomeIcon icon={faTags} fixedWidth /> 标签
               </Nav.Link>
             </Link>
           </Nav.Item>
           <Nav.Item>
             <Link href="/search/" passHref>
               <Nav.Link>
-                <FontAwesomeIcon icon={faSearch} fixedWidth />
-                搜索
+                <FontAwesomeIcon icon={faSearch} fixedWidth /> 搜索
               </Nav.Link>
             </Link>
           </Nav.Item>
@@ -74,8 +72,7 @@ export default function Header({ collections }) {
           </NavDropdown>
           <Nav.Item>
             <Nav.Link href="/atom.xml">
-              <FontAwesomeIcon icon={faRss} fixedWidth />
-              RSS
+              <FontAwesomeIcon icon={faRss} fixedWidth /> RSS
             </Nav.Link>
           </Nav.Item>
         </Nav>
@@ -83,8 +80,7 @@ export default function Header({ collections }) {
           <Nav.Item>
             <Link href="/about/" passHref>
               <Nav.Link>
-                <FontAwesomeIcon icon={faInfoCircle} fixedWidth />
-                关于
+                <FontAwesomeIcon icon={faInfoCircle} fixedWidth /> 关于
               </Nav.Link>
             </Link>
           </Nav.Item>

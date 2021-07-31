@@ -5,11 +5,10 @@ import {
   getItemPreview,
   getAppProps,
 } from "../libs/data"
-import { slugify } from "../libs/utils"
 
 import { ItemPreview } from "../libs/type"
 
-import Link from "next/link"
+import Archive from "../components/archive"
 
 type CollectionParams = {
   params: {
@@ -32,7 +31,6 @@ export const getStaticProps: GetStaticProps = async ({
   })
   return {
     props: {
-      collectionSlug,
       collectionName,
       items,
       ...getAppProps(),
@@ -55,33 +53,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function Post({
-  collectionSlug,
   collectionName,
   items,
 }: {
-  collectionSlug: string
   collectionName: string
   items: ItemPreview[]
 }) {
-  const itemElements = items.map((item) => (
-    <li key={item.name}>
-      <Link href={`/${collectionSlug}/${item.slug}`}>
-        <a>{item.name}</a>
-      </Link>
-      , {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签{" "}
-      <ul>
-        {item.tags.map((tag) => (
-          <li key={tag}>
-            <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
-          </li>
-        ))}
-      </ul>
-    </li>
-  ))
-  return (
-    <>
-      <h3>分类：{collectionName}</h3>
-      {itemElements}
-    </>
-  )
+  return <Archive title={`分类: ${collectionName}`} items={items} />
 }

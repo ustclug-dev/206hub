@@ -11,7 +11,7 @@ import {
 
 import { ItemMeta, Comment } from "../libs/type"
 import { getAverageScoreByComments, slugify } from "../libs/utils"
-import Image from "next/image"
+// import Image from "next/image"
 
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
@@ -122,10 +122,14 @@ export default function Item({
             </Col>
             {itemMeta.image && (
               <Col md="auto" className="col-12 px-0">
-                <Image
-                  src={itemMeta.image}
-                  alt={`Introduction image of ${itemMeta.name}`}
-                />
+                {
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="mw-100 d-block mx-auto"
+                    src={itemMeta.image}
+                    alt={`Introduction image of ${itemMeta.name}`}
+                  />
+                }
               </Col>
             )}
           </Row>
@@ -149,7 +153,8 @@ export default function Item({
               </Link>{" "}
               的评论
               {/* TODO: Add avatar */}
-            </h3><span>时间: {comment.metadata.date}</span>
+            </h3>
+            <span>时间: {comment.metadata.date}</span>
           </Card.Header>
           <Card.Body>
             <div dangerouslySetInnerHTML={{ __html: comment.contents }} />

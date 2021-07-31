@@ -3,6 +3,7 @@ import { getTags, getAppProps } from "../../libs/data"
 import { TagList } from "../../libs/type"
 import { slugify } from "../../libs/utils"
 import Link from "next/link"
+import Archive from "../../components/archive"
 
 type TagParams = {
   params: {
@@ -31,25 +32,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export default function TagItemPage({ tagInfo }: { tagInfo: TagList[0] }) {
-  return (
-    <>
-      <h1>标签: {tagInfo.tagName}</h1>
-      {tagInfo.items.map((item) => (
-        <li key={`${item.collection.slug}/${item.slug}`}>
-          [{item.collection.name}] {""}
-          <Link href={`/${item.collection.slug}/${item.slug}`}>
-            <a>{item.name}</a>
-          </Link>
-          , {item.commentCnt} 条点评, 平均分 {item.averageScore}, 标签 {""}
-          <ul>
-            {item.tags.map((tag) => (
-              <li key={tag}>
-                <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </>
-  )
+  return <Archive title={`标签: ${tagInfo.tagName}`} items={tagInfo.items} />
 }

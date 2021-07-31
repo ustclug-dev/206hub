@@ -9,6 +9,8 @@ import generateRSS from "../libs/rss"
 import Link from "next/link"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
 
 type collectionsIndex = {
   slug: string
@@ -45,29 +47,37 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 function HomePage({ collections }: { collections: collectionsIndex }) {
   const collectionItems = collections.map((collection) => (
-    <Card key={collection.name}>
-      <Card.Header>
-        <h4 className="my-0 font-weight-normal">{collection.name}</h4>
-      </Card.Header>
-      <Card.Body>
-        <Card.Title>{collection.itemCnt} 个条目</Card.Title>
-        <ul className="list-unstyled mt-3 mb-4">
-          <li>合计 {collection.commentCnt} 条评论</li>
-        </ul>
-        <Link href={`/${collection.slug}`} passHref>
-          <Button size="lg" className="btn-block">
-            View
-          </Button>
-        </Link>
-      </Card.Body>
-    </Card>
+    <Col
+      key={collection.name}
+      className="col-12 px-3 mb-4"
+      sm={6}
+      md={4}
+      lg={3}
+    >
+      <Card className="shadow">
+        <Card.Header>
+          <h4 className="my-0 font-weight-normal">{collection.name}</h4>
+        </Card.Header>
+        <Card.Body>
+          <Card.Title>{collection.itemCnt} 个条目</Card.Title>
+          <ul className="list-unstyled mt-3 mb-4">
+            <li>合计 {collection.commentCnt} 条评论</li>
+          </ul>
+          <Link href={`/${collection.slug}`} passHref>
+            <Button size="lg" className="btn-block">
+              查看
+            </Button>
+          </Link>
+        </Card.Body>
+      </Card>
+    </Col>
   ))
   return (
     <>
       <div className="p-3 pt-md-5 pb-md-4 mx-auto text-center">
         <h1 className="display-4">所有分类</h1>
       </div>
-      <div className="card-deck mb-3 text-center">{collectionItems}</div>
+      <Row className="text-center">{collectionItems}</Row>
     </>
   )
 }
