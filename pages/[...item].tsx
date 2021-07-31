@@ -158,9 +158,9 @@ export default function Item({
               的评论
               {/* TODO: Add avatar */}
             </h3>
-            <span>
+            <p className="mt-1 mb-0">
               时间: <Date dateString={comment.metadata.date} />
-            </span>
+            </p>
           </Card.Header>
           <Card.Body>
             <div dangerouslySetInnerHTML={{ __html: comment.contents }} />
