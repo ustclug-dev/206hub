@@ -147,14 +147,17 @@ Take 'Teeworlds' as an example.
 Assuming that you are 'testA'
 
 1. First you shall add yourself to `data/authors.yaml`
+
    ```yaml
    testA:
      name: test A
      avatar: ""
    ```
-   
+
    `avatar` is not used for now.
+
 2. Create `data/game/Teeworlds/testA.md` with following contents:
+
    ```markdown
    ---
    tags:
@@ -164,7 +167,7 @@ Assuming that you are 'testA'
    score: 9
    date: 2021-07-31 13:00
    ---
-   
+
    Teeworlds is a **great** game.
    ```
 
