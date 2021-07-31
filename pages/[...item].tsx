@@ -6,6 +6,7 @@ import {
   getCommentAuthorSlugs,
   getItemMeta,
   getComment,
+  getAppProps,
 } from "../libs/data"
 
 import { ItemMeta, Comment } from "../libs/type"
@@ -32,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ({
       itemMeta,
       comments,
       averageScore: getAverageScoreByComments(comments),
+      ...getAppProps(),
     },
   }
 }

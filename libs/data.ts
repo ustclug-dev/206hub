@@ -335,3 +335,11 @@ export async function getAllComments(): Promise<
   ).flat()
   return comments
 }
+
+export function getAppProps() {
+  return {
+    app: {
+      header: getCollections(),
+    },
+  }
+}

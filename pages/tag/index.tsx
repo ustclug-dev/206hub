@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next"
-import { getTags } from "../../libs/data"
+import { getTags, getAppProps } from "../../libs/data"
 import Link from "next/link"
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -7,6 +7,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       tags,
+      ...getAppProps(),
     },
   }
 }

@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from "next"
-import { getTags } from "../../libs/data"
+import { getTags, getAppProps } from "../../libs/data"
 import { TagList } from "../../libs/type"
 import { slugify } from "../../libs/utils"
 import Link from "next/link"
@@ -15,6 +15,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
   return {
     props: {
       tagInfo,
+      ...getAppProps(),
     },
   }
 }

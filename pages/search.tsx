@@ -5,10 +5,13 @@ import {
   getCommentAuthorSlugs,
   getComment,
   getItemMeta,
+  getAppProps,
 } from "../libs/data"
 import { CommentMetadata, Author } from "../libs/type"
 import { useState } from "react"
 import Link from "next/link"
+import InputGroup from "react-bootstrap/InputGroup"
+import Form from "react-bootstrap/Form"
 
 type SearchData = {
   collection: string
@@ -87,7 +90,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     )
   ).flat()
   return {
-    props: { fullData },
+    props: { fullData, ...getAppProps() },
   }
 }
 
@@ -142,11 +145,12 @@ function SearchPage({ fullData }: { fullData: SearchData }) {
   return (
     <>
       <h1>搜索</h1>
-      <input
-        type="text"
-        placeholder="输入需要搜索的关键词……"
-        onChange={(e) => setKeywords(e.target.value.trim().split(/[ ,]+/))}
-      ></input>
+      <InputGroup className="mb-3">
+        <Form.Control
+          placeholder="输入需要搜索的关键词……"
+          onChange={(e) => setKeywords(e.target.value.trim().split(/[ ,]+/))}
+        ></Form.Control>
+      </InputGroup>
       <h3>结果</h3>
       <div>{resultItems}</div>
     </>

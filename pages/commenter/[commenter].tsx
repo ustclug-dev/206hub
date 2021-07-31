@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from "next"
-import { getAuthors, getAuthorData } from "../../libs/data"
+import { getAuthors, getAuthorData, getAppProps } from "../../libs/data"
 import { Author } from "../../libs/type"
 import { Awaited } from "../../libs/utils"
 import Link from "next/link"
@@ -21,6 +21,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       authorData,
       authorInstance,
+      ...getAppProps(),
     },
   }
 }

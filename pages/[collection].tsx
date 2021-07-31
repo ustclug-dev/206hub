@@ -1,5 +1,10 @@
 import { GetStaticProps, GetStaticPaths } from "next"
-import { getCollections, getItemSlugs, getItemPreview } from "../libs/data"
+import {
+  getCollections,
+  getItemSlugs,
+  getItemPreview,
+  getAppProps,
+} from "../libs/data"
 import { slugify } from "../libs/utils"
 
 import { ItemPreview } from "../libs/type"
@@ -30,6 +35,7 @@ export const getStaticProps: GetStaticProps = async ({
       collectionSlug,
       collectionName,
       items,
+      ...getAppProps(),
     },
   }
 }
