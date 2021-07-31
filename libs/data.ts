@@ -4,6 +4,8 @@ import yaml from "js-yaml"
 import matter from "gray-matter"
 import remark from "remark"
 import html from "remark-html"
+import gfm from "remark-gfm"
+import styleGuide from "remark-preset-lint-markdown-style-guide"
 
 import {
   Collection,
@@ -138,7 +140,11 @@ function getRawComment(
   author: string
 ): { content: any; data: any } {
   const commentFile = path.join(dataDirectory, collection, item, author + ".md")
-  const matterResult = matter(fs.readFileSync(commentFile, "utf8"))
+  const matterResult = matter(fs.readFileSync(commentFile, "utf8"), {
+    engines: {
+      yaml: (s) => yaml.safeLoad(s, { schema: yaml.JSON_SCHEMA }),
+    },
+  })
   return {
     content: matterResult.content,
     data: {
@@ -167,7 +173,11 @@ export async function getComment(
   const markdownData = matterResult.content
   let contents = ""
   if (!raw) {
-    const processedContent = await remark().use(html).process(markdownData)
+    const processedContent = await remark()
+      .use(styleGuide)
+      .use(gfm)
+      .use(html)
+      .process(markdownData)
     contents = processedContent.toString()
   } else {
     contents = markdownData

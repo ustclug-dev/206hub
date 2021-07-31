@@ -45,3 +45,6 @@ jspm_packages
 
 # RSS file (It will be automatically generated)
 /public/atom.xml
+
+# Migration scripts venv
+venv/

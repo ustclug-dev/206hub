@@ -83,16 +83,20 @@ export default function Item({
               style={{ flexBasis: 0 }}
             >
               <Row as="dl" className="mb-0">
-                <Col as="dt" lg={2} className="col-12">
-                  其他名称
-                </Col>
-                <Col as="dd" lg={10} className="col-12">
-                  <ul className="list-unstyled">
-                    {itemMeta.aliases.map((alias) => (
-                      <li key={alias}>{alias}</li>
-                    ))}
-                  </ul>
-                </Col>
+                {itemMeta.aliases && (
+                  <Col as="dt" lg={2} className="col-12">
+                    其他名称
+                  </Col>
+                )}
+                {itemMeta.aliases && (
+                  <Col as="dd" lg={10} className="col-12">
+                    <ul className="list-unstyled">
+                      {itemMeta.aliases.map((alias) => (
+                        <li key={alias}>{alias}</li>
+                      ))}
+                    </ul>
+                  </Col>
+                )}
                 <Col as="dt" lg={2} className="col-12">
                   辅助链接
                 </Col>

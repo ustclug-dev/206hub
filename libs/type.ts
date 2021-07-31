@@ -23,7 +23,7 @@ export type ItemList = ItemPreview[]
 export type ItemMeta = {
   name: string
   slug: string
-  aliases: string[]
+  aliases?: string[]
   links: { source: string; link: string }[]
   meta?: { name: string; value: string }[]
   image?: string

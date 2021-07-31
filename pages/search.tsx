@@ -17,7 +17,7 @@ type SearchData = {
   collection: string
   url: string
   name: string
-  aliases: string[]
+  aliases?: string[]
   links: { source: string; link: string }[]
   comments: {
     content: string
@@ -68,11 +68,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
                 itemSlug,
                 comments,
                 name: itemMeta.name,
-                aliases: itemMeta.aliases,
+                aliases: itemMeta.aliases || null,
                 links: itemMeta.links,
-              }
-              if (itemMeta.meta) {
-                ;(itemInfo as any).meta = itemMeta.meta
+                meta: itemMeta.meta || null,
               }
               return itemInfo
             })
@@ -80,7 +78,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         ).flat()
         return items.map((item) => ({
           name: item.name,
-          aliases: item.aliases,
+          aliases: item.aliases || null,
           links: item.links,
           comments: item.comments,
           collection: collection.name,
