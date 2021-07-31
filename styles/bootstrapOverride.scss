@@ -8,5 +8,16 @@
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-color: rgb(128, 128, 128) !important;
+  border-style: inherit !important;
+  border-width: 0 !important;
 }

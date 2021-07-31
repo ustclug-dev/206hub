@@ -11,7 +11,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       tags,
-      ...getAppProps(),
+      ...getAppProps("所有标签"),
     },
   }
 }
@@ -19,10 +19,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 function TagPage({ tags }: { tags: ReturnType<typeof getTags> }) {
   const tagElements = tags.map((tag) => (
     <Link href={`/tag/${tag.tagSlug}`} key={tag.tagSlug} passHref>
-      <Button variant="outline-primary">{tag.tagName}</Button>
+      <a className="tagButton">{tag.tagName}</a>
     </Link>
   ))
-  console.log(styles.tagCardBody)
   return (
     <Card bg="light" className="shadow-sm">
       <Card.Header className="py-3">

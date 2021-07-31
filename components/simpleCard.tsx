@@ -1,4 +1,6 @@
 import Card from "react-bootstrap/Card"
+import Head from "next/head"
+import site from "../config/site"
 
 export interface SimpleCardProps {
   title: string

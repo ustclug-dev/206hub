@@ -1,3 +1,5 @@
+@import "~bootstrap/scss/bootstrap";
+
 sp {
   display: inline;
   opacity: 0;
@@ -19,4 +21,10 @@ sp {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.tagButton {
+  @extend .btn;
+  @extend .btn-outline-primary;
+  @extend .me-2;
 }

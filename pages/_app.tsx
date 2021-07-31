@@ -6,6 +6,7 @@ import Head from "next/head"
 import Container from "react-bootstrap/Container"
 import Header from "../components/header"
 import Footer from "../components/footer"
+import site from "../config/site"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -15,6 +16,11 @@ export default function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
+        <title>
+          {pageProps.app.title
+            ? `${pageProps.app.title} - ${site.title}`
+            : site.title}
+        </title>
       </Head>
       <Header collections={pageProps.app.header} />
       <Container className="flex-grow-1 my-4">

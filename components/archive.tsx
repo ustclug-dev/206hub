@@ -41,7 +41,7 @@ export default function Archive(props: ArchiveProps) {
                   <td>
                     {item.tags.map((tag) => (
                       <Link key={tag} href={`/tag/${slugify(tag)}`} passHref>
-                        <Button variant="outline-primary">{tag}</Button>
+                        <a className="tagButton">{tag}</a>
                       </Link>
                     ))}
                   </td>

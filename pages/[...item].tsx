@@ -16,7 +16,7 @@ import { getAverageScoreByComments, slugify } from "../libs/utils"
 import Card from "react-bootstrap/Card"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
-import Button from "react-bootstrap/Button"
+import Date from "../components/date"
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({
       itemMeta,
       comments,
       averageScore: getAverageScoreByComments(comments),
-      ...getAppProps(),
+      ...getAppProps(itemMeta.name),
     },
   }
 }
@@ -77,9 +77,13 @@ export default function Item({
         </Card.Header>
         <Card.Body>
           <Row className="m-0 p-0">
-            <Col sm={true} className="col-12">
+            <Col
+              sm={true}
+              className="col-12 col flex-grow-1"
+              style={{ flexBasis: 0 }}
+            >
               <Row as="dl" className="mb-0">
-                <Col as="dl" lg={2} className="col-12">
+                <Col as="dt" lg={2} className="col-12">
                   其他名称
                 </Col>
                 <Col as="dd" lg={10} className="col-12">
@@ -89,7 +93,7 @@ export default function Item({
                     ))}
                   </ul>
                 </Col>
-                <Col as="dl" lg={2} className="col-12">
+                <Col as="dt" lg={2} className="col-12">
                   辅助链接
                 </Col>
                 <Col as="dd" lg={10} className="col-12">
@@ -103,16 +107,16 @@ export default function Item({
                 </Col>
                 {itemMeta.meta && (
                   <>
-                    <Col as="dl" lg={2} className="col-12">
+                    <Col as="dt" lg={2} className="col-12">
                       其他元信息
                     </Col>
                     <Col as="dd" lg={10} className="col-12">
                       <Row as="dl">
                         {itemMeta.meta.map((meta) => (
-                          <>
+                          <div key={meta.name}>
                             <dt className="col-auto">{meta.name}</dt>
                             <dd className="col">{meta.value}</dd>
-                          </>
+                          </div>
                         ))}
                       </Row>
                     </Col>
@@ -121,7 +125,7 @@ export default function Item({
               </Row>
             </Col>
             {itemMeta.image && (
-              <Col md="auto" className="col-12 px-0">
+              <Col md="auto" className="col-12 px-0 col">
                 {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -154,7 +158,9 @@ export default function Item({
               的评论
               {/* TODO: Add avatar */}
             </h3>
-            <span>时间: {comment.metadata.date}</span>
+            <span>
+              时间: <Date dateString={comment.metadata.date} />
+            </span>
           </Card.Header>
           <Card.Body>
             <div dangerouslySetInnerHTML={{ __html: comment.contents }} />
@@ -164,7 +170,7 @@ export default function Item({
             <div className="float-end">
               {comment.metadata.tags.map((tag) => (
                 <Link key={slugify(tag)} href={`/tag/${slugify(tag)}`} passHref>
-                  <Button variant="outline-primary">{tag}</Button>
+                  <a className="tagButton">{tag}</a>
                 </Link>
               ))}
             </div>

@@ -4,6 +4,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "bootstrap": "^5.0.2",
+    "date-fns": "^2.23.0",
     "feed": "^4.2.2",
     "gray-matter": "^4.0.3",
     "js-yaml": "^3.14.1",

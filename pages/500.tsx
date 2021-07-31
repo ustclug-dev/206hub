@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container"
 export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
-      ...getAppProps(),
+      ...getAppProps("500"),
     },
   }
 }

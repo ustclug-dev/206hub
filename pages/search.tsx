@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     )
   ).flat()
   return {
-    props: { fullData, ...getAppProps() },
+    props: { fullData, ...getAppProps("搜索") },
   }
 }
 

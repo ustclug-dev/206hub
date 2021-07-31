@@ -5,7 +5,7 @@ import SimpleCard from "../components/simpleCard"
 export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
-      ...getAppProps(),
+      ...getAppProps("关于"),
     },
   }
 }

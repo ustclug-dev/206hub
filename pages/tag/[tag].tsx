@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: TagParams) => {
   return {
     props: {
       tagInfo,
-      ...getAppProps(),
+      ...getAppProps(tagInfo.tagName),
     },
   }
 }

@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       collections: collectionProps,
-      ...getAppProps(),
+      ...getAppProps("主页"),
     },
   }
 }

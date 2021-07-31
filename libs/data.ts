@@ -336,9 +336,11 @@ export async function getAllComments(): Promise<
   return comments
 }
 
-export function getAppProps() {
+export function getAppProps(title?: string) {
+  title = title || null
   return {
     app: {
+      title,
       header: getCollections(),
     },
   }

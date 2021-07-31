@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       authorData,
       authorInstance,
-      ...getAppProps(),
+      ...getAppProps(authorInstance.name),
     },
   }
 }

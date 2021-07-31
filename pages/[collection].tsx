@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({
     props: {
       collectionName,
       items,
-      ...getAppProps(),
+      ...getAppProps(collectionName),
     },
   }
 }
