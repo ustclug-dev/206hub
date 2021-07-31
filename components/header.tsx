@@ -13,10 +13,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import Nav from "react-bootstrap/Nav"
 import NavDropdown from "react-bootstrap/NavDropdown"
-// import { getCollections } from "../libs/data"
-// import { GetStaticProps } from "next"
+import { useRouter } from "next/router";
 
 export default function Header({ collections }) {
+  const router = useRouter()
+  const activeKey = router.pathname.startsWith("/tag/") ? "/tag" : router.pathname
+
   return (
     <Navbar bg="light" expand="md" className="shadow-sm">
       <Link href="/" passHref>
@@ -27,7 +29,7 @@ export default function Header({ collections }) {
       </Link>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Nav className="me-auto">
+        <Nav className="me-auto" activeKey={activeKey}>
           <Nav.Item>
             <Link href="/" passHref>
               <Nav.Link>
@@ -77,7 +79,7 @@ export default function Header({ collections }) {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Nav className="my-2 my-lg-0">
+        <Nav className="my-2 my-lg-0" activeKey={router.pathname}>
           <Nav.Item>
             <Link href="/about/" passHref>
               <Nav.Link>

@@ -26,6 +26,7 @@ export type ItemMeta = {
   aliases: string[]
   links: { source: string; link: string }[]
   meta?: { name: string; value: string }[]
+  image?: string
 }
 export type ItemMetaList = ItemMeta[]
 export type Author = {

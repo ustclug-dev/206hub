@@ -3,6 +3,7 @@ import { getAuthors, getAuthorData, getAppProps } from "../../libs/data"
 import { Author } from "../../libs/type"
 import { Awaited } from "../../libs/utils"
 import Link from "next/link"
+import Button from "react-bootstrap/Button"
 
 type CommenterParams = {
   params: {
@@ -47,27 +48,32 @@ export default function CommenterPage({
   return (
     <>
       <h1>评论者: {authorInstance.name}</h1>
-      <a
-        type="button"
+      <Button
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(authorData)
         )}`}
+        // @ts-ignore here we need a download attr
         download={`${authorInstance.slug}.json`}
       >
         下载用户数据 (JSON)
-      </a>
-      {authorData.map((comment) => {
-        const url = `/${comment.info.collection.slug}/${comment.info.item.slug}#${authorInstance.slug}`
-        return (
-          <li key={url}>
-            [{comment.info.collection.name}]{" "}
-            <Link href={url}>
-              <a>{comment.info.item.name}</a>
-            </Link>
-            : <code>{JSON.stringify(comment.comment)}</code>
-          </li>
-        )
-      })}
+      </Button>
+      <ul>
+        {authorData.map((comment) => {
+          const url = `/${comment.info.collection.slug}/${comment.info.item.slug}#${authorInstance.slug}`
+          return (
+            <li key={url}>
+              [{comment.info.collection.name}]{" "}
+              <Link href={url}>
+                <a>{comment.info.item.name}</a>
+              </Link>
+              <details>
+                <summary>查看 JSON 格式存档</summary>
+                <code>{JSON.stringify(comment.comment)}</code>
+              </details>
+            </li>
+          )
+        })}
+      </ul>
     </>
   )
 }

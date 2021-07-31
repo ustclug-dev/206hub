@@ -11,6 +11,12 @@ import {
 
 import { ItemMeta, Comment } from "../libs/type"
 import { getAverageScoreByComments, slugify } from "../libs/utils"
+import Image from "next/image"
+
+import Card from "react-bootstrap/Card"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Button from "react-bootstrap/Button"
 
 export const getStaticProps: GetStaticProps = async ({
   params,
@@ -65,59 +71,100 @@ export default function Item({
 }) {
   return (
     <>
-      <h1>{itemMeta.name}</h1>
-      <h3>其他名称</h3>
-      <ul>
-        {itemMeta.aliases.map((alias) => (
-          <li key={alias}>{alias}</li>
-        ))}
-      </ul>
-      <h3>辅助链接</h3>
-      <ul>
-        {itemMeta.links.map((link) => (
-          <li key={link.source}>
-            <a href={link.link}>{link.source}</a>
-          </li>
-        ))}
-      </ul>
-      {itemMeta.meta && (
-        <>
-          <h3>其他元信息</h3>
-          <ul>
-            {itemMeta.meta.map((meta) => (
-              <li key={meta.name}>
-                {meta.name}: {meta.value}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      <hr />
-      <h4>平均得分：{averageScore}</h4>
-      {comments.map((comment) => (
-        <div key={comment.metadata.author.name}>
-          <h3 id={comment.metadata.author.slug}>
-            <Link href={`/commenter/${comment.metadata.author.slug}`}>
-              <a>{comment.metadata.author.name}</a>
-            </Link>{" "}
-            的评论
-          </h3>{" "}
-          {/* TODO: Add avatar */}
-          <span>时间: {comment.metadata.date}</span>
-          <br />
-          <span>
-            标签:{" "}
-            {comment.metadata.tags.map((tag) => (
-              <li key={slugify(tag)}>
-                <Link href={`/tag/${slugify(tag)}`}>{tag}</Link>
-              </li>
-            ))}
+      <Card bg="light" className="shadow-sm border-info">
+        <Card.Header className="bg-info text-white text-center py-3">
+          <h1 className="mb-0">{itemMeta.name}</h1>
+        </Card.Header>
+        <Card.Body>
+          <Row className="m-0 p-0">
+            <Col sm={true} className="col-12">
+              <Row as="dl" className="mb-0">
+                <Col as="dl" lg={2} className="col-12">
+                  其他名称
+                </Col>
+                <Col as="dd" lg={10} className="col-12">
+                  <ul className="list-unstyled">
+                    {itemMeta.aliases.map((alias) => (
+                      <li key={alias}>{alias}</li>
+                    ))}
+                  </ul>
+                </Col>
+                <Col as="dl" lg={2} className="col-12">
+                  辅助链接
+                </Col>
+                <Col as="dd" lg={10} className="col-12">
+                  <ul className="list-unstyled">
+                    {itemMeta.links.map((link) => (
+                      <li key={link.source}>
+                        <a href={link.link}>{link.source}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </Col>
+                {itemMeta.meta && (
+                  <>
+                    <Col as="dl" lg={2} className="col-12">
+                      其他元信息
+                    </Col>
+                    <Col as="dd" lg={10} className="col-12">
+                      <Row as="dl">
+                        {itemMeta.meta.map((meta) => (
+                          <>
+                            <dt className="col-auto">{meta.name}</dt>
+                            <dd className="col">{meta.value}</dd>
+                          </>
+                        ))}
+                      </Row>
+                    </Col>
+                  </>
+                )}
+              </Row>
+            </Col>
+            {itemMeta.image && (
+              <Col md="auto" className="col-12 px-0">
+                <Image
+                  src={itemMeta.image}
+                  alt={`Introduction image of ${itemMeta.name}`}
+                />
+              </Col>
+            )}
+          </Row>
+        </Card.Body>
+        <Card.Footer className="text-white bg-info text-center">
+          <span className="lead mb-0">
+            平均得分：<b>{averageScore}</b>
           </span>
-          <br />
-          <span>分数: {comment.metadata.score}</span>
-          <br />
-          <div dangerouslySetInnerHTML={{ __html: comment.contents }} />
-        </div>
+        </Card.Footer>
+      </Card>
+      {comments.map((comment) => (
+        <Card
+          bg="light"
+          className="shadow-sm mt-3"
+          key={comment.metadata.author.name}
+        >
+          <Card.Header>
+            <h3 className="mb-0" id={comment.metadata.author.slug}>
+              <Link href={`/commenter/${comment.metadata.author.slug}`}>
+                <a>{comment.metadata.author.name}</a>
+              </Link>{" "}
+              的评论
+              {/* TODO: Add avatar */}
+            </h3><span>时间: {comment.metadata.date}</span>
+          </Card.Header>
+          <Card.Body>
+            <div dangerouslySetInnerHTML={{ __html: comment.contents }} />
+          </Card.Body>
+          <Card.Footer>
+            <h3 className="float-start mb-0">{comment.metadata.score} 分</h3>
+            <div className="float-end">
+              {comment.metadata.tags.map((tag) => (
+                <Link key={slugify(tag)} href={`/tag/${slugify(tag)}`} passHref>
+                  <Button variant="outline-primary">{tag}</Button>
+                </Link>
+              ))}
+            </div>
+          </Card.Footer>
+        </Card>
       ))}
     </>
   )
