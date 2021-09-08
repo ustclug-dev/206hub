@@ -176,7 +176,7 @@ export async function getComment(
     const processedContent = await remark()
       .use(styleGuide)
       .use(gfm)
-      .use(html, {sanitize: false})
+      .use(html, { sanitize: false })
       .process(markdownData)
     contents = processedContent.toString()
   } else {
