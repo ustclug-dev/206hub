@@ -171,4 +171,7 @@ Assuming that you are 'testA'
    Teeworlds is a **great** game.
    ```
 
-   Notice: You can change global timezone in `config/site.js`. Date with timezone is not tested yet.
+   Notice: 
+   
+   1. You can change global timezone in `config/site.js`. Date with timezone is not tested yet.
+   2. 206hub trusts user's input, and does not sanitize user input for now.
