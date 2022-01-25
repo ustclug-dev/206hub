@@ -2,9 +2,9 @@ name: Next.js project check
 
 on:
   push:
-    branches: [ nextjs-ng ]
+    branches: [ nextjs ]
   pull_request:
-    branches: [ nextjs-ng ]
+    branches: [ nextjs ]
 
 jobs:
   build:
