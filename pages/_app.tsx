@@ -13,6 +13,9 @@ import { config } from "@fortawesome/fontawesome-svg-core"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 config.autoAddCss = false
 
+// fix SSR error in react-bootstrap
+import SSRProvider from "react-bootstrap/SSRProvider"
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -27,11 +30,13 @@ export default function App({ Component, pageProps }: AppProps) {
             : site.title}
         </title>
       </Head>
-      <Header collections={pageProps.app.header} />
-      <Container className="flex-grow-1 my-4">
-        <Component {...pageProps} />
-      </Container>
-      <Footer />
+      <SSRProvider>
+        <Header collections={pageProps.app.header} />
+        <Container className="flex-grow-1 my-4">
+          <Component {...pageProps} />
+        </Container>
+        <Footer />
+      </SSRProvider>
     </div>
   )
 }
