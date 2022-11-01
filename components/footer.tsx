@@ -9,11 +9,11 @@ export default function Footer() {
         <p>
           Copyright &copy; {new Date().getFullYear()}{" "}
           <Link href="/">
-            <a>{site.title}</a>
+            {site.title}
           </Link>{" "}
           v2 alpha
         </p>
       </Container>
     </footer>
-  )
+  );
 }

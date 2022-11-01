@@ -33,24 +33,24 @@ export default function Archive(props: ArchiveProps) {
                 <tr key={url}>
                   <td>
                     <Link href={url}>
-                      <a>{item.name}</a>
+                      {item.name}
                     </Link>
                   </td>
                   <td>{item.commentCnt}</td>
                   <td>{item.averageScore}</td>
                   <td>
                     {item.tags.map((tag) => (
-                      <Link key={tag} href={`/tag/${slugify(tag)}`} passHref>
-                        <a className="tagButton">{tag}</a>
+                      <Link key={tag} href={`/tag/${slugify(tag)}`} passHref className="tagButton">
+                        {tag}
                       </Link>
                     ))}
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </Table>
       </Card.Body>
     </Card>
-  )
+  );
 }

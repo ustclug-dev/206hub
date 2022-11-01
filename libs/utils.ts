@@ -21,7 +21,7 @@ export function getAllTagsByMetadata(metadatas: CommentMetadata[]): string[] {
 }
 
 export function slugify(str: string): string {
-  return str.trim().toLowerCase().replace(/\s+/g, "-").replace("/", "-")
+  return str.trim().toLowerCase().replace(/\s+/g, "-").replace("/", "-");
 }
 
 export type ValueOf<T> = T[keyof T]

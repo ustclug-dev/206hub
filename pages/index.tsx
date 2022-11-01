@@ -63,7 +63,7 @@ function HomePage({ collections }: { collections: collectionsIndex }) {
           <ul className="list-unstyled mt-3 mb-4">
             <li>合计 {collection.commentCnt} 条评论</li>
           </ul>
-          <Link href={`/${collection.slug}`} passHref>
+          <Link href={`/${collection.slug}`} passHref legacyBehavior>
             <Button size="lg" className="btn-block">
               查看
             </Button>

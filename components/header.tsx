@@ -23,7 +23,7 @@ export default function Header({ collections }) {
 
   return (
     <Navbar bg="light" expand="md" className="shadow-sm">
-      <Link href="/" passHref>
+      <Link href="/" passHref legacyBehavior>
         <Navbar.Brand>
           <FontAwesomeIcon icon={faBug} fixedWidth size="lg" /> {site.title}
         </Navbar.Brand>
@@ -32,21 +32,21 @@ export default function Header({ collections }) {
       <Navbar.Collapse>
         <Nav className="me-auto" activeKey={activeKey}>
           <Nav.Item>
-            <Link href="/" passHref>
+            <Link href="/" passHref legacyBehavior>
               <Nav.Link>
                 <FontAwesomeIcon icon={faHome} fixedWidth /> 主页
               </Nav.Link>
             </Link>
           </Nav.Item>
           <Nav.Item>
-            <Link href="/tag/" passHref>
+            <Link href="/tag/" passHref legacyBehavior>
               <Nav.Link>
                 <FontAwesomeIcon icon={faTags} fixedWidth /> 标签
               </Nav.Link>
             </Link>
           </Nav.Item>
           <Nav.Item>
-            <Link href="/search/" passHref>
+            <Link href="/search/" passHref legacyBehavior>
               <Nav.Link>
                 <FontAwesomeIcon icon={faSearch} fixedWidth /> 搜索
               </Nav.Link>
@@ -65,7 +65,7 @@ export default function Header({ collections }) {
                 href={`/${collection.slug}/`}
                 key={collection.slug}
                 passHref
-              >
+                legacyBehavior>
                 <NavDropdown.Item>{collection.name}</NavDropdown.Item>
               </Link>
             ))}
@@ -78,7 +78,7 @@ export default function Header({ collections }) {
         </Nav>
         <Nav className="my-2 my-lg-0" activeKey={router.pathname}>
           <Nav.Item>
-            <Link href="/about/" passHref>
+            <Link href="/about/" passHref legacyBehavior>
               <Nav.Link>
                 <FontAwesomeIcon icon={faInfoCircle} fixedWidth /> 关于
               </Nav.Link>
@@ -87,5 +87,5 @@ export default function Header({ collections }) {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  )
+  );
 }
