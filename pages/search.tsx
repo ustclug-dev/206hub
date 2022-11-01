@@ -135,22 +135,22 @@ function SearchPage({ fullData }: { fullData: SearchData }) {
   const resultItems = results.map((item) => (
     <li key={item.data.url}>
       [{item.data.collection}]{" "}
-      <Link href={item.data.url}>
-        {item.data.name}
-      </Link>
+      <Link href={item.data.url}>{item.data.name}</Link>
     </li>
   ))
-  return <>
-    <h1>搜索</h1>
-    <InputGroup className="mb-3">
-      <Form.Control
-        placeholder="输入需要搜索的关键词……"
-        onChange={(e) => setKeywords(e.target.value.trim().split(/[ ,]+/))}
-      ></Form.Control>
-    </InputGroup>
-    <h3>结果</h3>
-    <div>{resultItems}</div>
-  </>;
+  return (
+    <>
+      <h1>搜索</h1>
+      <InputGroup className="mb-3">
+        <Form.Control
+          placeholder="输入需要搜索的关键词……"
+          onChange={(e) => setKeywords(e.target.value.trim().split(/[ ,]+/))}
+        ></Form.Control>
+      </InputGroup>
+      <h3>结果</h3>
+      <div>{resultItems}</div>
+    </>
+  )
 }
 
 export default SearchPage

@@ -65,7 +65,8 @@ export default function Header({ collections }) {
                 href={`/${collection.slug}/`}
                 key={collection.slug}
                 passHref
-                legacyBehavior>
+                legacyBehavior
+              >
                 <NavDropdown.Item>{collection.name}</NavDropdown.Item>
               </Link>
             ))}
@@ -87,5 +88,5 @@ export default function Header({ collections }) {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  );
+  )
 }

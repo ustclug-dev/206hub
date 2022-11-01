@@ -22,7 +22,8 @@ function TagPage({ tags }: { tags: ReturnType<typeof getTags> }) {
       href={`/tag/${tag.tagSlug}`}
       key={tag.tagSlug}
       passHref
-      className="tagButton">
+      className="tagButton"
+    >
       {tag.tagName}
     </Link>
   ))

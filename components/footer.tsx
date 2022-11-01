@@ -8,12 +8,9 @@ export default function Footer() {
       <Container>
         <p>
           Copyright &copy; {new Date().getFullYear()}{" "}
-          <Link href="/">
-            {site.title}
-          </Link>{" "}
-          v2 alpha
+          <Link href="/">{site.title}</Link> v2 alpha
         </p>
       </Container>
     </footer>
-  );
+  )
 }
