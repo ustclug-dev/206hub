@@ -23,7 +23,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint && prettier --check .",
-    "export": "next build && next export"
+    "export": "next build"
   },
   "devDependencies": {
     "@types/node": "^17.0.13",
