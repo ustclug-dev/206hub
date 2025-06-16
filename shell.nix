@@ -3,6 +3,6 @@
 with pkgs; mkShell {
     buildInputs = [
         python312
-        nodejs-18_x
+        nodejs_22
     ];
 }
